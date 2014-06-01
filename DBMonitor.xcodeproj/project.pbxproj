@@ -200,6 +200,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Wayne Hoy";
 				TargetAttributes = {
+					B0F8CA05193BCCAE003B6189 = {
+						DevelopmentTeam = URZ4G84JVH;
+					};
 					B0F8CA26193BCCAF003B6189 = {
 						TestTargetID = B0F8CA05193BCCAE003B6189;
 					};
@@ -377,10 +380,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DBMonitor/DBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "DBMonitor/DBMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5214F315-FDEA-4854-9FAF-A6058ED09EFA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -390,10 +395,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: SomoTrack Software Inc (URZ4G84JVH)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DBMonitor/DBMonitor-Prefix.pch";
 				INFOPLIST_FILE = "DBMonitor/DBMonitor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5214F315-FDEA-4854-9FAF-A6058ED09EFA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -457,6 +464,7 @@
 				B0F8CA3A193BCCAF003B6189 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B0F8CA3B193BCCAF003B6189 /* Build configuration list for PBXNativeTarget "DBMonitorTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +473,7 @@
 				B0F8CA3D193BCCAF003B6189 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
