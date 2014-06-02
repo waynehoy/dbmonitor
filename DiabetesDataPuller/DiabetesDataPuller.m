@@ -21,7 +21,7 @@
 -(NSArray *) getGlucose: (int) numTime{
 
     
-    NSURL* glucoseURL = [NSURL URLWithString:@"http://wotkit.sensetecnic.com/api/sensors/mike.blood-sensor/data?beforeE=144"];
+    NSURL* glucoseURL = [NSURL URLWithString:@"http://wotkit.sensetecnic.com/api/sensors/mike.glucose/data?beforeE=144"];
     NSURLRequest* request = [NSURLRequest requestWithURL:glucoseURL];
     NSURLResponse* response = nil;
     NSError* error = nil;
@@ -49,18 +49,20 @@
             
             self.maxTime = level.time;
             self.maxGlucose = level.glucose;
+            
+            firstTime = NO;
         }else{
-            if([level.time compare:self.minTime] == NSOrderedAscending)
-               self.minTime = level.time;
             
-            if(level.glucose<self.minGlucose)
+            if(level.glucose<self.minGlucose){
+                self.minTime = level.time;
                 self.minGlucose = level.glucose;
+            }
             
-            if([level.time compare:self.maxTime] == NSOrderedDescending)
+            
+            if(level.glucose>self.maxGlucose){
                 self.maxTime = level.time;
-            
-            if(level.glucose>self.maxGlucose)
                 self.maxGlucose = level.glucose;
+            }
             
         }
         
