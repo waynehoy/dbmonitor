@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E196395193D1F1200E3F9F3 /* libDiabetesDataPuller.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E196394193D1F1200E3F9F3 /* libDiabetesDataPuller.a */; };
 		A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B01585193D15E800F2A1AB /* HistoryViewController.m */; };
 		B0623E47193BDE9E00E69D92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0623E46193BDE9E00E69D92 /* QuartzCore.framework */; };
 		B0781273193CDE800096D448 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */; };
@@ -37,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E196391193D1EDE00E3F9F3 /* Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alert.h; sourceTree = "<group>"; };
+		4E196392193D1EDE00E3F9F3 /* DiabetesDataPuller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiabetesDataPuller.h; sourceTree = "<group>"; };
+		4E196393193D1EDE00E3F9F3 /* GlucoseLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucoseLevel.h; sourceTree = "<group>"; };
+		4E196394193D1F1200E3F9F3 /* libDiabetesDataPuller.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDiabetesDataPuller.a; path = DBMonitor/libDiabetesDataPuller.a; sourceTree = SOURCE_ROOT; };
 		A3B01584193D15E800F2A1AB /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		A3B01585193D15E800F2A1AB /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		B0623E46193BDE9E00E69D92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -149,6 +154,7 @@
 				B0F8CA0C193BCCAE003B6189 /* CoreGraphics.framework in Frameworks */,
 				B0F8CA0E193BCCAE003B6189 /* UIKit.framework in Frameworks */,
 				B0F8CA0A193BCCAE003B6189 /* Foundation.framework in Frameworks */,
+				4E196395193D1F1200E3F9F3 /* libDiabetesDataPuller.a in Frameworks */,
 				B0781273193CDE800096D448 /* libCorePlot-CocoaTouch.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,6 +172,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E196390193D1EDE00E3F9F3 /* DiabetesDataPullerHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				4E196394193D1F1200E3F9F3 /* libDiabetesDataPuller.a */,
+				4E196391193D1EDE00E3F9F3 /* Alert.h */,
+				4E196392193D1EDE00E3F9F3 /* DiabetesDataPuller.h */,
+				4E196393193D1EDE00E3F9F3 /* GlucoseLevel.h */,
+			);
+			name = DiabetesDataPullerHeaders;
+			path = "DBMonitor/DiabetesDataPuller headers";
+			sourceTree = "<group>";
+		};
 		B0781274193CDEDA0096D448 /* CorePlotHeaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +272,7 @@
 		B0F8C9FD193BCCAE003B6189 = {
 			isa = PBXGroup;
 			children = (
+				4E196390193D1EDE00E3F9F3 /* DiabetesDataPullerHeaders */,
 				B0F8CA0F193BCCAE003B6189 /* DBMonitor */,
 				B0F8CA2E193BCCAF003B6189 /* DBMonitorTests */,
 				B0F8CA08193BCCAE003B6189 /* Frameworks */,
@@ -570,6 +589,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DBMonitor",
+					/Users/darkaga/Desktop/hmk,
+					"2211/DiabetesDataPuller/DerivedData/DiabetesDataPuller/Build/Products/Debug-iphonesimulator",
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -596,6 +617,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DBMonitor",
+					/Users/darkaga/Desktop/hmk,
+					"2211/DiabetesDataPuller/DerivedData/DiabetesDataPuller/Build/Products/Debug-iphonesimulator",
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
