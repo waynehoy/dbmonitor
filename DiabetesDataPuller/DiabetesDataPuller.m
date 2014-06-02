@@ -21,7 +21,7 @@
 -(NSArray *) getGlucose: (int) numTime{
 
     
-    NSURL* glucoseURL = [NSURL URLWithString:@"http://wotkit.sensetecnic.com/api/sensors/mike.blood-sensor/data&beforeE=144"];
+    NSURL* glucoseURL = [NSURL URLWithString:@"http://wotkit.sensetecnic.com/api/sensors/mike.blood-sensor/data?beforeE=144"];
     NSURLRequest* request = [NSURLRequest requestWithURL:glucoseURL];
     NSURLResponse* response = nil;
     NSError* error = nil;
