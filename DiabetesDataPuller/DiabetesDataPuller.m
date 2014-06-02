@@ -18,6 +18,9 @@
 @synthesize maxTime;
 @synthesize maxGlucose;
 
+@synthesize startTime;
+@synthesize endTime;
+
 -(NSArray *) getGlucose: (int) numTime{
 
     
@@ -45,13 +48,21 @@
         
         if(firstTime){
             self.minTime = level.time;
+            self.startTime = level.time;
             self.minGlucose = level.glucose;
             
             self.maxTime = level.time;
+            self.endTime = level.time;
             self.maxGlucose = level.glucose;
             
             firstTime = NO;
         }else{
+            
+            if ([level.time compare:self.endTime] == NSOrderedDescending)
+                self.endTime = level.time;
+            
+            if ([level.time compare:self.startTime] == NSOrderedAscending)
+                self.startTime = level.time;
             
             if(level.glucose<self.minGlucose){
                 self.minTime = level.time;
