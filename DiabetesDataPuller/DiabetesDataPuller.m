@@ -52,17 +52,17 @@
             
             firstTime = NO;
         }else{
-            if([level.time compare:self.minTime] == NSOrderedAscending)
-               self.minTime = level.time;
             
-            if(level.glucose<self.minGlucose)
+            if(level.glucose<self.minGlucose){
+                self.minTime = level.time;
                 self.minGlucose = level.glucose;
+            }
             
-            if([level.time compare:self.maxTime] == NSOrderedDescending)
+            
+            if(level.glucose>self.maxGlucose){
                 self.maxTime = level.time;
-            
-            if(level.glucose>self.maxGlucose)
                 self.maxGlucose = level.glucose;
+            }
             
         }
         
