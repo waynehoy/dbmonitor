@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B01585193D15E800F2A1AB /* HistoryViewController.m */; };
 		B0623E47193BDE9E00E69D92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0623E46193BDE9E00E69D92 /* QuartzCore.framework */; };
 		B0781273193CDE800096D448 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */; };
 		B0F8CA0A193BCCAE003B6189 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F8CA09193BCCAE003B6189 /* Foundation.framework */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A3B01584193D15E800F2A1AB /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
+		A3B01585193D15E800F2A1AB /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		B0623E46193BDE9E00E69D92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
 		B0781275193CDEDA0096D448 /* CorePlot-CocoaTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CorePlot-CocoaTouch.h"; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 				B0F8CA18193BCCAE003B6189 /* DBMAppDelegate.h */,
 				B0F8CA19193BCCAE003B6189 /* DBMAppDelegate.m */,
 				B0F8CA1B193BCCAF003B6189 /* Main.storyboard */,
+				A3B01584193D15E800F2A1AB /* HistoryViewController.h */,
+				A3B01585193D15E800F2A1AB /* HistoryViewController.m */,
 				B0F8CA1E193BCCAF003B6189 /* DBMGraphViewController.h */,
 				B0F8CA1F193BCCAF003B6189 /* DBMGraphViewController.m */,
 				B0F8CA21193BCCAF003B6189 /* Images.xcassets */,
@@ -428,6 +433,7 @@
 				B0F8CA1A193BCCAE003B6189 /* DBMAppDelegate.m in Sources */,
 				B0F8CA16193BCCAE003B6189 /* main.m in Sources */,
 				B0F8CA20193BCCAF003B6189 /* DBMGraphViewController.m in Sources */,
+				A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
