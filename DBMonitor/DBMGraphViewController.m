@@ -8,6 +8,7 @@
 
 #import "DBMGraphViewController.h"
 #import "CorePlot-CocoaTouch.h"
+#import "DiabetesDataPuller.h"
 
 @interface DBMGraphViewController ()
 
@@ -19,6 +20,16 @@
 
 @synthesize hostView = _hostView;
 @synthesize selectedTheme = _selectedTheme;
+
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
+    {
+        ddp = [[DiabetesDataPuller alloc] init];
+        NSLog(@"ddp = %@", [ddp getGlucose:0]);
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {

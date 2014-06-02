@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
 
+@class DiabetesDataPuller;
+
 @interface DBMGraphViewController : UIViewController <CPTPlotDataSource>
 {
     CPTXYGraph *myGraph;
+    DiabetesDataPuller* ddp;
 }
 
 @property (nonatomic, strong) CPTGraphHostingView *hostView;
