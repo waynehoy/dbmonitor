@@ -16,7 +16,7 @@
 		B0F8CA16193BCCAE003B6189 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F8CA15193BCCAE003B6189 /* main.m */; };
 		B0F8CA1A193BCCAE003B6189 /* DBMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F8CA19193BCCAE003B6189 /* DBMAppDelegate.m */; };
 		B0F8CA1D193BCCAF003B6189 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0F8CA1B193BCCAF003B6189 /* Main.storyboard */; };
-		B0F8CA20193BCCAF003B6189 /* DBMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F8CA1F193BCCAF003B6189 /* DBMViewController.m */; };
+		B0F8CA20193BCCAF003B6189 /* DBMGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F8CA1F193BCCAF003B6189 /* DBMGraphViewController.m */; };
 		B0F8CA22193BCCAF003B6189 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0F8CA21193BCCAF003B6189 /* Images.xcassets */; };
 		B0F8CA29193BCCAF003B6189 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F8CA28193BCCAF003B6189 /* XCTest.framework */; };
 		B0F8CA2A193BCCAF003B6189 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F8CA09193BCCAE003B6189 /* Foundation.framework */; };
@@ -127,8 +127,8 @@
 		B0F8CA18193BCCAE003B6189 /* DBMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBMAppDelegate.h; sourceTree = "<group>"; };
 		B0F8CA19193BCCAE003B6189 /* DBMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBMAppDelegate.m; sourceTree = "<group>"; };
 		B0F8CA1C193BCCAF003B6189 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B0F8CA1E193BCCAF003B6189 /* DBMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBMViewController.h; sourceTree = "<group>"; };
-		B0F8CA1F193BCCAF003B6189 /* DBMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBMViewController.m; sourceTree = "<group>"; };
+		B0F8CA1E193BCCAF003B6189 /* DBMGraphViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBMGraphViewController.h; sourceTree = "<group>"; };
+		B0F8CA1F193BCCAF003B6189 /* DBMGraphViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBMGraphViewController.m; sourceTree = "<group>"; };
 		B0F8CA21193BCCAF003B6189 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B0F8CA27193BCCAF003B6189 /* DBMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0F8CA28193BCCAF003B6189 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -286,8 +286,8 @@
 				B0F8CA18193BCCAE003B6189 /* DBMAppDelegate.h */,
 				B0F8CA19193BCCAE003B6189 /* DBMAppDelegate.m */,
 				B0F8CA1B193BCCAF003B6189 /* Main.storyboard */,
-				B0F8CA1E193BCCAF003B6189 /* DBMViewController.h */,
-				B0F8CA1F193BCCAF003B6189 /* DBMViewController.m */,
+				B0F8CA1E193BCCAF003B6189 /* DBMGraphViewController.h */,
+				B0F8CA1F193BCCAF003B6189 /* DBMGraphViewController.m */,
 				B0F8CA21193BCCAF003B6189 /* Images.xcassets */,
 				B0F8CA10193BCCAE003B6189 /* Supporting Files */,
 			);
@@ -427,7 +427,7 @@
 			files = (
 				B0F8CA1A193BCCAE003B6189 /* DBMAppDelegate.m in Sources */,
 				B0F8CA16193BCCAE003B6189 /* main.m in Sources */,
-				B0F8CA20193BCCAF003B6189 /* DBMViewController.m in Sources */,
+				B0F8CA20193BCCAF003B6189 /* DBMGraphViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
