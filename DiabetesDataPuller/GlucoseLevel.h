@@ -14,6 +14,11 @@
 @property NSDate* time;
 @property float glucose;
 
+@property NSDate* minTime;
+@property float minGlucose;
+
+@property NSDate* maxtime;
+@property float maxGlucose;
 
 - (NSComparisonResult)compare:(GlucoseLevel *)anotherLevel;
 
