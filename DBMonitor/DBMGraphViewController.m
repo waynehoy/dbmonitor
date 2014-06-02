@@ -74,7 +74,20 @@
         case CPTScatterPlotFieldX:
             if (index < count)
             {
-                return [NSNumber numberWithUnsignedInteger:index];
+                // Assume the numerical range of the X axis is 0.0 to 1.0
+                // And the minTime is at 0.0 and the maxTime is at 1.0
+                double minTime = (double)[self.ddp.minTime timeIntervalSince1970];
+                double maxTime = (double)[self.ddp.maxTime timeIntervalSince1970];
+                NSLog(@"%f %f", minTime, maxTime);
+                double timeRange = maxTime - minTime;
+                
+                double curTime = (double)[[[self.data objectAtIndex:index] time] timeIntervalSince1970];
+                
+                NSLog(@"%f %f", curTime, timeRange);
+                
+                double xValue = (curTime / timeRange)*1000;
+                NSLog(@"x value is %f", xValue);
+                return [NSNumber numberWithDouble:xValue];
             }
             break;
             

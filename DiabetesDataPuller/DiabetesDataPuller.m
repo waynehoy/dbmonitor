@@ -49,6 +49,8 @@
             
             self.maxTime = level.time;
             self.maxGlucose = level.glucose;
+            
+            firstTime = NO;
         }else{
             if([level.time compare:self.minTime] == NSOrderedAscending)
                self.minTime = level.time;
