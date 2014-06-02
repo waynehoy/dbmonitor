@@ -13,6 +13,8 @@
 
 @end
 
+
+
 @implementation DBMGraphViewController
 
 @synthesize hostView = _hostView;
@@ -60,7 +62,7 @@
             break;
             
         case CPTScatterPlotFieldY:
-                return [NSNumber numberWithUnsignedInteger:index*index];
+            return [NSNumber numberWithUnsignedInteger:index];//]*index];
             break;
     }
     return [NSDecimalNumber zero];
@@ -70,7 +72,7 @@
   //  return [NSNumber numberWithInt:index*2];
 }
 
--(CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index
+-(CPTLayer *)dataLabelForPlot:(CPTPlot*)plot recordIndex:(NSUInteger)index
 {
     return nil;
 }
@@ -119,9 +121,11 @@
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.hostView.bounds];
 //    [graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
     self.hostView.hostedGraph = graph;
+    
     // 2 - Set graph title
-    NSString *title = @"Chart Title";
+    NSString *title = @"Blood Glucose Level vs. Time";
     graph.title = title;
+    
     // 3 - Create and set text style
     CPTMutableTextStyle *titleStyle = [CPTMutableTextStyle textStyle];
 //    titleStyle.color = [CPTColor whiteColor];
@@ -130,12 +134,14 @@
     graph.titleTextStyle = titleStyle;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
+    
     // 4 - Set padding for plot area
     [graph.plotAreaFrame setPaddingLeft:30.0f];
     [graph.plotAreaFrame setPaddingBottom:30.0f];
+    
     // 5 - Enable user interactions for plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
-    plotSpace.allowsUserInteraction = YES;
+    plotSpace.allowsUserInteraction = NO;
     return;
 }
 
@@ -144,6 +150,7 @@
     // 1 - Get graph and plot space
     CPTGraph *graph = self.hostView.hostedGraph;
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
+    
     // 2 - Create the three plots
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
@@ -161,6 +168,7 @@
 //    msftPlot.identifier = CPDTickerSymbolMSFT;
 //    CPTColor *msftColor = [CPTColor blueColor];
 //    [graph addPlot:msftPlot toPlotSpace:plotSpace];
+
     // 3 - Set up plot space
     [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
@@ -169,6 +177,7 @@
     CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
     [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
     plotSpace.yRange = yRange;
+    
     // 4 - Create styles and symbols
     CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
     aaplLineStyle.lineWidth = 2.5;
