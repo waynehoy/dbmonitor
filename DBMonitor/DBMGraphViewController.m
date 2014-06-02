@@ -7,6 +7,7 @@
 //
 
 #import "DBMGraphViewController.h"
+#import "CorePlot-CocoaTouch.h"
 
 @interface DBMGraphViewController ()
 
@@ -51,7 +52,22 @@
                      field:(NSUInteger)fieldEnum
                recordIndex:(NSUInteger)index
 {
-    return [NSNumber numberWithInt:index*(-5)];
+    switch (fieldEnum) {
+        case CPTScatterPlotFieldX:
+//            if (index < valueCount) {
+                return [NSNumber numberWithUnsignedInteger:index];
+  //          }
+            break;
+            
+        case CPTScatterPlotFieldY:
+                return [NSNumber numberWithUnsignedInteger:index*index];
+            break;
+    }
+    return [NSDecimalNumber zero];
+    
+    
+    
+  //  return [NSNumber numberWithInt:index*2];
 }
 
 -(CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index
