@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4E1963A9193D229200E3F9F3 /* DiabetesDataPuller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963A3193D229200E3F9F3 /* DiabetesDataPuller.m */; };
-		4E1963AA193D229200E3F9F3 /* GlucoseLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963A4193D229200E3F9F3 /* GlucoseLevel.m */; };
-		4E1963AB193D229200E3F9F3 /* Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963A7193D229200E3F9F3 /* Alert.m */; };
+		4E1963BA193D238600E3F9F3 /* Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963AE193D238600E3F9F3 /* Alert.m */; };
+		4E1963BB193D238600E3F9F3 /* DiabetesDataPuller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */; };
+		4E1963BC193D238600E3F9F3 /* GlucoseLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */; };
 		A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B01585193D15E800F2A1AB /* HistoryViewController.m */; };
 		B0623E47193BDE9E00E69D92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0623E46193BDE9E00E69D92 /* QuartzCore.framework */; };
 		B0781273193CDE800096D448 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */; };
@@ -40,12 +40,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4E1963A3193D229200E3F9F3 /* DiabetesDataPuller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiabetesDataPuller.m; sourceTree = "<group>"; };
-		4E1963A4193D229200E3F9F3 /* GlucoseLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlucoseLevel.m; sourceTree = "<group>"; };
-		4E1963A5193D229200E3F9F3 /* GlucoseLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucoseLevel.h; sourceTree = "<group>"; };
-		4E1963A6193D229200E3F9F3 /* Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alert.h; sourceTree = "<group>"; };
-		4E1963A7193D229200E3F9F3 /* Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alert.m; sourceTree = "<group>"; };
-		4E1963A8193D229200E3F9F3 /* DiabetesDataPuller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiabetesDataPuller.h; sourceTree = "<group>"; };
+		4E1963AD193D238600E3F9F3 /* Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alert.h; sourceTree = "<group>"; };
+		4E1963AE193D238600E3F9F3 /* Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alert.m; sourceTree = "<group>"; };
+		4E1963AF193D238600E3F9F3 /* DiabetesDataPuller-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiabetesDataPuller-Prefix.pch"; sourceTree = "<group>"; };
+		4E1963B0193D238600E3F9F3 /* DiabetesDataPuller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiabetesDataPuller.h; sourceTree = "<group>"; };
+		4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiabetesDataPuller.m; sourceTree = "<group>"; };
+		4E1963B2193D238600E3F9F3 /* GlucoseLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucoseLevel.h; sourceTree = "<group>"; };
+		4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlucoseLevel.m; sourceTree = "<group>"; };
 		A3B01584193D15E800F2A1AB /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		A3B01585193D15E800F2A1AB /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		B0623E46193BDE9E00E69D92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -175,17 +176,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4E1963A2193D226800E3F9F3 /* DiabetesDataPuller */ = {
+		4E1963AC193D238600E3F9F3 /* DiabetesDataPuller */ = {
 			isa = PBXGroup;
 			children = (
-				4E1963A3193D229200E3F9F3 /* DiabetesDataPuller.m */,
-				4E1963A4193D229200E3F9F3 /* GlucoseLevel.m */,
-				4E1963A5193D229200E3F9F3 /* GlucoseLevel.h */,
-				4E1963A6193D229200E3F9F3 /* Alert.h */,
-				4E1963A7193D229200E3F9F3 /* Alert.m */,
-				4E1963A8193D229200E3F9F3 /* DiabetesDataPuller.h */,
+				4E1963AD193D238600E3F9F3 /* Alert.h */,
+				4E1963AE193D238600E3F9F3 /* Alert.m */,
+				4E1963AF193D238600E3F9F3 /* DiabetesDataPuller-Prefix.pch */,
+				4E1963B0193D238600E3F9F3 /* DiabetesDataPuller.h */,
+				4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */,
+				4E1963B2193D238600E3F9F3 /* GlucoseLevel.h */,
+				4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */,
 			);
-			name = DiabetesDataPuller;
+			path = DiabetesDataPuller;
 			sourceTree = "<group>";
 		};
 		B0781274193CDEDA0096D448 /* CorePlotHeaders */ = {
@@ -276,6 +278,7 @@
 		B0F8C9FD193BCCAE003B6189 = {
 			isa = PBXGroup;
 			children = (
+				4E1963AC193D238600E3F9F3 /* DiabetesDataPuller */,
 				B0F8CA0F193BCCAE003B6189 /* DBMonitor */,
 				B0F8CA2E193BCCAF003B6189 /* DBMonitorTests */,
 				B0F8CA08193BCCAE003B6189 /* Frameworks */,
@@ -307,7 +310,6 @@
 		B0F8CA0F193BCCAE003B6189 /* DBMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				4E1963A2193D226800E3F9F3 /* DiabetesDataPuller */,
 				B0781274193CDEDA0096D448 /* CorePlotHeaders */,
 				B0F8CA18193BCCAE003B6189 /* DBMAppDelegate.h */,
 				B0F8CA19193BCCAE003B6189 /* DBMAppDelegate.m */,
@@ -453,13 +455,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E1963BB193D238600E3F9F3 /* DiabetesDataPuller.m in Sources */,
+				4E1963BC193D238600E3F9F3 /* GlucoseLevel.m in Sources */,
 				B0F8CA1A193BCCAE003B6189 /* DBMAppDelegate.m in Sources */,
+				4E1963BA193D238600E3F9F3 /* Alert.m in Sources */,
 				B0F8CA16193BCCAE003B6189 /* main.m in Sources */,
 				B0F8CA20193BCCAF003B6189 /* DBMGraphViewController.m in Sources */,
 				A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */,
-				4E1963AB193D229200E3F9F3 /* Alert.m in Sources */,
-				4E1963A9193D229200E3F9F3 /* DiabetesDataPuller.m in Sources */,
-				4E1963AA193D229200E3F9F3 /* GlucoseLevel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
