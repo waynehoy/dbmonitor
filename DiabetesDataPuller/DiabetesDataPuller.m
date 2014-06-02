@@ -12,9 +12,16 @@
 
 @implementation DiabetesDataPuller
 
+@synthesize minTime;
+@synthesize minGlucose;
+
+@synthesize maxTime;
+@synthesize maxGlucose;
+
 -(NSArray *) getGlucose: (int) numTime{
+
     
-    NSURL* glucoseURL = [NSURL URLWithString:@"http://wotkit.sensetecnic.com/api/sensors/mike.blood-sensor/data"];
+    NSURL* glucoseURL = [NSURL URLWithString:@"http://wotkit.sensetecnic.com/api/sensors/mike.blood-sensor/data?beforeE=144"];
     NSURLRequest* request = [NSURLRequest requestWithURL:glucoseURL];
     NSURLResponse* response = nil;
     NSError* error = nil;
@@ -22,10 +29,11 @@
     
     NSObject *obj = [NSJSONSerialization JSONObjectWithData:glucoseJson options:0 error:&error];
     
-    
     NSArray *ary = (NSArray *)obj;
     
     NSMutableArray* result = [[NSMutableArray alloc] init];
+    
+    bool firstTime = true;
     
     for (NSDictionary* dic in ary) {
         float value = [dic[@"value"] floatValue];
@@ -34,6 +42,28 @@
         GlucoseLevel* level = [[GlucoseLevel alloc] init];
         level.time = date;
         level.glucose = value;
+        
+        if(firstTime){
+            self.minTime = level.time;
+            self.minGlucose = level.glucose;
+            
+            self.maxTime = level.time;
+            self.maxGlucose = level.glucose;
+        }else{
+            if([level.time compare:self.minTime] == NSOrderedAscending)
+               self.minTime = level.time;
+            
+            if(level.glucose<self.minGlucose)
+                self.minGlucose = level.glucose;
+            
+            if([level.time compare:self.maxTime] == NSOrderedDescending)
+                self.maxTime = level.time;
+            
+            if(level.glucose>self.maxGlucose)
+                self.maxGlucose = level.glucose;
+            
+        }
+        
         [result addObject:level];
     }
     

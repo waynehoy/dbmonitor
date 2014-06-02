@@ -10,6 +10,12 @@
 
 @interface DiabetesDataPuller : NSObject
 
+@property NSDate* minTime;
+@property float minGlucose;
+
+@property NSDate* maxTime;
+@property float maxGlucose;
+
 -(NSArray *) getGlucose: (int) numTime;
 -(NSArray *) getAlerts: (int) numAlerts;
 -(int) getPrediction;
