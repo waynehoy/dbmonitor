@@ -9,6 +9,9 @@
 #import "DBMGraphViewController.h"
 #import "CorePlot-CocoaTouch.h"
 #import "DiabetesDataPuller.h"
+#import "GlucoseLevel.h"
+
+
 
 @interface DBMGraphViewController ()
 
@@ -21,20 +24,17 @@
 @synthesize hostView = _hostView;
 @synthesize selectedTheme = _selectedTheme;
 
--(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
-    {
-        ddp = [[DiabetesDataPuller alloc] init];
-        NSLog(@"ddp = %@", [ddp getGlucose:0]);
-    }
-    return self;
-}
+@synthesize data = data;
+@synthesize ddp = ddp;
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
 	// Do any additional setup after loading the view, typically from a nib.
+    self.ddp = [[DiabetesDataPuller alloc] init];
+    self.data = [ddp getGlucose:0];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -55,25 +55,34 @@
 //  Core Plot Data Source methods
 //
 // *********************************************************************
-
+#define MAXCOUNT ((60 /*min/h*/ / 5 /*min/datapt*/) * 3 /*hours*/) /* data pts per 3 hour interval */
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
-    return 10;
+    NSUInteger count = self.data.count;
+    if(count > MAXCOUNT)
+        return MAXCOUNT;
+    return count;
 }
 
 -(NSNumber *)numberForPlot:(CPTPlot *)plot
                      field:(NSUInteger)fieldEnum
                recordIndex:(NSUInteger)index
 {
+    NSUInteger count = [self numberOfRecordsForPlot:plot];
+                
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
-//            if (index < valueCount) {
+            if (index < count)
+            {
                 return [NSNumber numberWithUnsignedInteger:index];
-  //          }
+            }
             break;
             
         case CPTScatterPlotFieldY:
-            return [NSNumber numberWithUnsignedInteger:index];//]*index];
+            if (index < count)
+            {
+                return [NSNumber numberWithFloat:[[self.data objectAtIndex:index] glucose]];
+            }
             break;
     }
     return [NSDecimalNumber zero];
