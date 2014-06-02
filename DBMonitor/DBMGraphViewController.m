@@ -102,6 +102,8 @@
     return @"";
 }
 
+
+
 // *********************************************************************
 //
 //  Core Plot chart setup methods
@@ -139,18 +141,18 @@
 {
     // 1 - Create the graph
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.hostView.bounds];
-//    [graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
+    [graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
     self.hostView.hostedGraph = graph;
     
     // 2 - Set graph title
-    NSString *title = @"Blood Glucose Level vs. Time";
+    NSString *title = @"Blood Glucose Level (mmol/L) vs. Time";
     graph.title = title;
     
     // 3 - Create and set text style
     CPTMutableTextStyle *titleStyle = [CPTMutableTextStyle textStyle];
-//    titleStyle.color = [CPTColor whiteColor];
+    titleStyle.color = [CPTColor whiteColor];
     titleStyle.fontName = @"Helvetica";
-    titleStyle.fontSize = 12.0f;
+    titleStyle.fontSize = 10.0f;
     graph.titleTextStyle = titleStyle;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
@@ -175,9 +177,19 @@
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
     aaplPlot.identifier = 0;    // WKH TODO Enum for the plot ID (series)
-    CPTColor *aaplColor = [CPTColor redColor];
+    
+    //id beginColor   = [CPTColor colorWithComponentRed:0.168f green:0.547f blue:0.54f alpha:0.5f];
+    //id endColor     = [CPTColor colorWithComponentRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
+    //[aaplPlot setAreaFill:[CPTFill fillWithGradient:[CPTGradient gradientWithBeginningColor:beginColor
+    //                                                                             endingColor:endColor]]];
+    //NSDecimalNumber *intermediateNumber = [[NSDecimalNumber alloc] initWithFloat:0.0];
+    //NSDecimal decimal = [intermediateNumber decimalValue];
+    //[aaplPlot setAreaBaseValue:decimal];
+    
+    CPTColor *aaplColor = [CPTColor colorWithComponentRed:0.168f green:0.547f blue:0.54f alpha:0.5f];
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
 
+    
 //    CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
 //    googPlot.dataSource = self;
 //    googPlot.identifier = CPDTickerSymbolGOOG;
@@ -200,7 +212,7 @@
     
     // 4 - Create styles and symbols
     CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
-    aaplLineStyle.lineWidth = 2.5;
+    aaplLineStyle.lineWidth = 0.0;//2.5;
     aaplLineStyle.lineColor = aaplColor;
     aaplPlot.dataLineStyle = aaplLineStyle;
     CPTMutableLineStyle *aaplSymbolLineStyle = [CPTMutableLineStyle lineStyle];
@@ -211,6 +223,9 @@
     aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
     aaplPlot.plotSymbol = aaplSymbol;
 
+    
+    
+    
 //    CPTMutableLineStyle *googLineStyle = [googPlot.dataLineStyle mutableCopy];
 //    googLineStyle.lineWidth = 1.0;
 //    googLineStyle.lineColor = googColor;
