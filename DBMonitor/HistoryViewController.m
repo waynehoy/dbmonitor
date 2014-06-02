@@ -36,7 +36,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
+    NSArray* dateLabels = [NSArray arrayWithObjects:
+                           date1,
+                           date2,
+                           date3,
+                           nil];
+    
+    for(UILabel* l in dateLabels)
+    {
+        l.text = @"June 2 @ 9:00am";
+    }
+    
+    NSArray* dataLabels = [NSArray arrayWithObjects:
+                           dataPt1,
+                           dataPt2,
+                           dataPt3,
+                           nil];
+    
+    for(UILabel* l in dataLabels)
+    {
+        l.text = @"9.2 mmol/L -- BG low";
+    }
+
+    
+    
+    lastDataPt.text = [NSString stringWithFormat:@"Last Blood Glucose Reading:  %.1f mmol/L" , 9.2];
 }
 
 - (void)didReceiveMemoryWarning
