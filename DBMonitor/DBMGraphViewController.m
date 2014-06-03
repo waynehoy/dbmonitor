@@ -12,11 +12,13 @@
 #import "GlucoseLevel.h"
 
 
-
 @interface DBMGraphViewController ()
 
 @end
 
+
+static const NSString* GRAPH_HIGHLIGHT_ID = @"GRAPH_HIGHLIGHT_ID";
+static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 
 @implementation DBMGraphViewController
@@ -59,6 +61,9 @@
 #define MAXCOUNT ((60 /*min/h*/ / 5 /*min/datapt*/) * 12 /*hours*/) /* data pts per 3 hour interval */
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
+    if(plot.identifier == GRAPH_HIGHLIGHT_ID)
+        return 2;
+    
     NSUInteger count = self.data.count;
     if(count > MAXCOUNT)
         return MAXCOUNT;
@@ -70,9 +75,16 @@
                recordIndex:(NSUInteger)index
 {
     NSUInteger count = [self numberOfRecordsForPlot:plot];
-                
+    NSArray* dataPts = self.data;
+    
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
+
+            if(plot.identifier == GRAPH_HIGHLIGHT_ID)
+            {
+                dataPts = [ddp getGlucoseExtremes];
+            }
+            
             if (index < count)
             {
                 // Assume the numerical range of the X axis is 0.0 to 1.0
@@ -81,7 +93,7 @@
                 double maxTime = (double)[self.ddp.endTime timeIntervalSince1970];
 
                 double timeRange = maxTime - minTime;
-                double curTime = (double)[[[self.data objectAtIndex:index] time] timeIntervalSince1970];
+                double curTime = (double)[[[dataPts objectAtIndex:index] time] timeIntervalSince1970];
             
                 // percentage of value along axis length
                 double xValue = ((curTime - minTime) / timeRange); //*1000;
@@ -92,10 +104,15 @@
             break;
             
         case CPTScatterPlotFieldY:
+            if(plot.identifier == GRAPH_HIGHLIGHT_ID)
+            {
+                dataPts = [ddp getGlucoseExtremes];
+            }
+
             if (index < count)
             {
                 //NSLog(@"y value is %f", [[self.data objectAtIndex:index] glucose]);
-                return [NSNumber numberWithFloat:[[self.data objectAtIndex:index] glucose]];
+                return [NSNumber numberWithFloat:[[dataPts objectAtIndex:index] glucose]];
             }
             break;
     }
@@ -186,7 +203,7 @@
     // 2 - Create the three plots
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
-    aaplPlot.identifier = 0;    // WKH TODO Enum for the plot ID (series)
+    aaplPlot.identifier = GRAPH_ALL_ID;    // WKH TODO Enum for the plot ID (series)
     
     //id beginColor   = [CPTColor colorWithComponentRed:0.168f green:0.547f blue:0.54f alpha:0.5f];
     //id endColor     = [CPTColor colorWithComponentRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
@@ -302,28 +319,32 @@
 
     
     
-//    CPTMutableLineStyle *googLineStyle = [googPlot.dataLineStyle mutableCopy];
-//    googLineStyle.lineWidth = 1.0;
-//    googLineStyle.lineColor = googColor;
-//    googPlot.dataLineStyle = googLineStyle;
-//    CPTMutableLineStyle *googSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-//    googSymbolLineStyle.lineColor = googColor;
-//    CPTPlotSymbol *googSymbol = [CPTPlotSymbol starPlotSymbol];
-//    googSymbol.fill = [CPTFill fillWithColor:googColor];
-//    googSymbol.lineStyle = googSymbolLineStyle;
-//    googSymbol.size = CGSizeMake(6.0f, 6.0f);
-//    googPlot.plotSymbol = googSymbol;
-//    CPTMutableLineStyle *msftLineStyle = [msftPlot.dataLineStyle mutableCopy];
-//    msftLineStyle.lineWidth = 2.0;
-//    msftLineStyle.lineColor = msftColor;
-//    msftPlot.dataLineStyle = msftLineStyle;
-//    CPTMutableLineStyle *msftSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-//    msftSymbolLineStyle.lineColor = msftColor;
-//    CPTPlotSymbol *msftSymbol = [CPTPlotSymbol diamondPlotSymbol];
-//    msftSymbol.fill = [CPTFill fillWithColor:msftColor];
-//    msftSymbol.lineStyle = msftSymbolLineStyle;
-//    msftSymbol.size = CGSizeMake(6.0f, 6.0f);
-//    msftPlot.plotSymbol = msftSymbol;
+    
+    // secondary plot (highlights -- only ever two data pts for min/max)
+    CPTScatterPlot *highlightlPlot = [[CPTScatterPlot alloc] init];
+    highlightlPlot.dataSource = self;
+    highlightlPlot.identifier = GRAPH_HIGHLIGHT_ID;    // WKH TODO Enum for the plot ID (series)
+    
+    CPTColor *highlightColor = [CPTColor colorWithComponentRed:1.f green:1.f blue:1.f alpha:0.5f];
+    [graph addPlot:highlightlPlot toPlotSpace:plotSpace];
+    
+    // 4 - Create styles and symbols
+    CPTMutableLineStyle *highlightLineStyle = [highlightlPlot.dataLineStyle mutableCopy];
+    highlightLineStyle.lineWidth = 0.0;
+    highlightLineStyle.lineColor = highlightColor;
+    highlightlPlot.dataLineStyle = highlightLineStyle;
+    CPTMutableLineStyle *highlightSymbolLineStyle = [CPTMutableLineStyle lineStyle];
+    highlightSymbolLineStyle.lineColor = highlightColor;
+    CPTPlotSymbol *highlightSymbol = [CPTPlotSymbol trianglePlotSymbol];
+    highlightSymbol.fill = [CPTFill fillWithColor:highlightColor];
+    highlightSymbol.lineStyle = highlightSymbolLineStyle;
+    highlightSymbol.size = CGSizeMake(6.0f, 6.0f);
+    highlightlPlot.plotSymbol = highlightSymbol;
+    
+    
+
+
+    
     return;
 }
 

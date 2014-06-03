@@ -94,6 +94,19 @@
     return sorted;
 }
 
+-(NSArray*)getGlucoseExtremes
+{
+    GlucoseLevel* levelmin = [[GlucoseLevel alloc] init];
+    levelmin.time = self.minTime;
+    levelmin.glucose = self.minGlucose;
+
+    GlucoseLevel* levelmax = [[GlucoseLevel alloc] init];
+    levelmax.time = self.maxTime;
+    levelmax.glucose = self.maxGlucose;
+
+    return [NSArray arrayWithObjects:levelmin, levelmax, nil];
+}
+
 -(NSArray *) getAlerts: (int) numAlerts{
     return nil;
 }

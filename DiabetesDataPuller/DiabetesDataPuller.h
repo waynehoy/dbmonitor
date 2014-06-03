@@ -20,6 +20,7 @@
 @property NSDate* endTime;
 
 -(NSArray *) getGlucose: (int) numTime;
+-(NSArray*)getGlucoseExtremes;
 -(NSArray *) getAlerts: (int) numAlerts;
 -(int) getPrediction;
 

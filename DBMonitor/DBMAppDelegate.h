@@ -17,10 +17,10 @@
 
 
 // TODO:
-// - fix axes
+// x- fix axes
 // - highlight data high/low
 // - history
 // - alerts
 // - one page app
 // - prettyness
-// - way to refresh graph
+// - way to refresh graph / show variable time frames
