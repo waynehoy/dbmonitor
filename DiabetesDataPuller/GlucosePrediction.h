@@ -14,7 +14,10 @@
 @property double reading;
 @property NSString *msg;
 
-+ (GlucosePrediction *) refreshPrediction;
-+ (GlucosePrediction *) prediction;
++ (GlucosePrediction *) lastPrediction;
+
++ (void) setMaxPredictions: (int) max;
++ (NSArray *) refreshPredictionsArray;
++ (NSArray *) predictionsArray;
 
 @end
