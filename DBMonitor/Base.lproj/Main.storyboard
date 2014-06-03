@@ -101,6 +101,7 @@
                         <outlet property="date3" destination="nkV-HP-mj8" id="qSI-Dp-Ui4"/>
                         <outlet property="graphView" destination="50j-nN-sJE" id="DzA-1B-fz3"/>
                         <outlet property="lastDataPt" destination="GfR-15-NeD" id="IQY-hN-7nV"/>
+                        <outlet property="outLastUpdateLabel" destination="ijn-na-UTV" id="lqu-79-grh"/>
                         <outlet property="outSelectedTimePeriod" destination="VzB-gK-0wV" id="Bdh-J4-J0r"/>
                     </connections>
                 </viewController>

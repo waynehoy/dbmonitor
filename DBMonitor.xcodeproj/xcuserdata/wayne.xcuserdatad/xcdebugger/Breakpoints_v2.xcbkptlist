@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DBMonitor/HistoryViewController.m"
-            timestampString = "423471796.85083"
+            timestampString = "423472481.770178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "@implementation HistoryViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DBMonitor/HistoryViewController.m"
-            timestampString = "423471796.85083"
+            timestampString = "423472481.770178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "-numberOfRecordsForPlot:"
             landmarkType = "5">
          </BreakpointContent>

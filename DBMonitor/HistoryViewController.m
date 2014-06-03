@@ -100,6 +100,13 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     }
 
     lastDataPt.text = [NSString stringWithFormat:@"Most Recent Reading:  %.1f mmol/L" , level];
+    
+    GlucoseLevel *lastLevel = [[self data] lastObject];
+    self.outLastUpdateLabel.text = [NSString stringWithFormat:@"Last Updated:\n%@",
+                                    [NSDateFormatter localizedStringFromDate:lastLevel.time
+                                                                   dateStyle:NSDateFormatterShortStyle
+                                                                   timeStyle:NSDateFormatterShortStyle]];
+
 }
 
 - (void)didReceiveMemoryWarning

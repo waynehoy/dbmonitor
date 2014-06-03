@@ -32,6 +32,7 @@
 @property (nonatomic, strong) IBOutlet UILabel* lastDataPt;
 @property (nonatomic, strong) IBOutlet UIView* graphView;
 
+@property (weak, nonatomic) IBOutlet UILabel *outLastUpdateLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *outSelectedTimePeriod;
 - (IBAction)actTimePeriodChanged:(id)sender;
 
