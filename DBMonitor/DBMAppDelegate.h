@@ -13,3 +13,12 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @end
+
+
+
+// TODO:
+// - fix axes
+// - highlight data high/low
+// - history
+// - alerts
+// - prettyness
