@@ -598,8 +598,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DBMonitor",
-					/Users/darkaga/Desktop/hmk,
-					"2211/DiabetesDataPuller/DerivedData/DiabetesDataPuller/Build/Products/Debug-iphonesimulator",
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -626,8 +624,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DBMonitor",
-					/Users/darkaga/Desktop/hmk,
-					"2211/DiabetesDataPuller/DerivedData/DiabetesDataPuller/Build/Products/Debug-iphonesimulator",
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

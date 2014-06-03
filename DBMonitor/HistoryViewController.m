@@ -283,10 +283,10 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     CGRect parentRect = self.graphView.bounds;
     //    CGSize toolbarSize = self.toolbar.bounds.size;
     parentRect = CGRectMake(parentRect.origin.x,
-                            (parentRect.origin.y+5),
+                            (parentRect.origin.y+0),
                             //+ toolbarSize.height),
                             parentRect.size.width,
-                            (parentRect.size.height-30));
+                            (parentRect.size.height-0));
     //- toolbarSize.height));
     // 2 - Create host view
     self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:parentRect];
