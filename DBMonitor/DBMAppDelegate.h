@@ -21,4 +21,6 @@
 // - highlight data high/low
 // - history
 // - alerts
+// - one page app
 // - prettyness
+// - way to refresh graph

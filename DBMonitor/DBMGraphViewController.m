@@ -56,7 +56,7 @@
 //  Core Plot Data Source methods
 //
 // *********************************************************************
-#define MAXCOUNT ((60 /*min/h*/ / 5 /*min/datapt*/) * 3 /*hours*/) /* data pts per 3 hour interval */
+#define MAXCOUNT ((60 /*min/h*/ / 5 /*min/datapt*/) * 12 /*hours*/) /* data pts per 3 hour interval */
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
     NSUInteger count = self.data.count;
@@ -79,15 +79,14 @@
                 // And the minTime is at 0.0 and the maxTime is at 1.0
                 double minTime = (double)[self.ddp.startTime timeIntervalSince1970];
                 double maxTime = (double)[self.ddp.endTime timeIntervalSince1970];
-                NSLog(@"%f %f", minTime, maxTime);
+
                 double timeRange = maxTime - minTime;
-                
                 double curTime = (double)[[[self.data objectAtIndex:index] time] timeIntervalSince1970];
-                
-                NSLog(@"%f %f", curTime, timeRange);
-                
-                double xValue = (curTime / timeRange);//*1000;
-                NSLog(@"x value is %f", xValue);
+            
+                // percentage of value along axis length
+                double xValue = ((curTime - minTime) / timeRange); //*1000;
+                // NSLog(@"x value is %f", xValue);
+            
                 return [NSNumber numberWithDouble:xValue];
             }
             break;
@@ -95,15 +94,12 @@
         case CPTScatterPlotFieldY:
             if (index < count)
             {
+                //NSLog(@"y value is %f", [[self.data objectAtIndex:index] glucose]);
                 return [NSNumber numberWithFloat:[[self.data objectAtIndex:index] glucose]];
             }
             break;
     }
     return [NSDecimalNumber zero];
-    
-    
-    
-  //  return [NSNumber numberWithInt:index*2];
 }
 
 -(CPTLayer *)dataLabelForPlot:(CPTPlot*)plot recordIndex:(NSUInteger)index
@@ -185,7 +181,6 @@
 {
     // 1 - Get graph and plot space
     CPTGraph *graph = self.hostView.hostedGraph;
-    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
     
     // 2 - Create the three plots
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
@@ -201,6 +196,7 @@
     //[aaplPlot setAreaBaseValue:decimal];
     
     CPTColor *aaplColor = [CPTColor colorWithComponentRed:0.168f green:0.547f blue:0.54f alpha:0.5f];
+    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
 
     
@@ -216,13 +212,48 @@
 //    [graph addPlot:msftPlot toPlotSpace:plotSpace];
 
     // 3 - Set up plot space
-    [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
-    CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
-    [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
-    plotSpace.xRange = xRange;
-    CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
-    [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
-    plotSpace.yRange = yRange;
+//    [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
+//    CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
+//    [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
+//    plotSpace.xRange = xRange;
+//    CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
+//    [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
+//    plotSpace.yRange = yRange;
+
+    
+    CGFloat xMin = 0.0f;
+    CGFloat xMax = 1.0;
+    CGFloat yMin = 0.0f;
+    CGFloat yMax = 33.0f;
+    plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax)];
+    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(yMin) length:CPTDecimalFromFloat(yMax)];
+
+//    // 1 - Configure styles
+//    CPTMutableTextStyle *axisTitleStyle = [CPTMutableTextStyle textStyle];
+//    axisTitleStyle.color = [CPTColor whiteColor];
+//    axisTitleStyle.fontName = @"Helvetica-Bold";
+//    axisTitleStyle.fontSize = 12.0f;
+//    CPTMutableLineStyle *axisLineStyle = [CPTMutableLineStyle lineStyle];
+//    axisLineStyle.lineWidth = 2.0f;
+//    axisLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:1];
+//
+//    // 2 - Get the graph's axis set
+//    CPTXYAxisSet *axisSet = (CPTXYAxisSet *) self.hostView.hostedGraph.axisSet;
+//
+//    // 3 - Configure the x-axis
+//    axisSet.xAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
+//    axisSet.xAxis.title = @"Days of Week (Mon - Fri)";
+//    axisSet.xAxis.titleTextStyle = axisTitleStyle;
+//    axisSet.xAxis.titleOffset = 10.0f;
+//    axisSet.xAxis.axisLineStyle = axisLineStyle;
+//
+//    // 4 - Configure the y-axis
+//    axisSet.yAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
+//    axisSet.yAxis.title = @"Price";
+//    axisSet.yAxis.titleTextStyle = axisTitleStyle;
+//    axisSet.yAxis.titleOffset = 5.0f;
+//    axisSet.yAxis.axisLineStyle = axisLineStyle;
+
     
     // 4 - Create styles and symbols
     CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
@@ -237,7 +268,6 @@
     aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
     aaplPlot.plotSymbol = aaplSymbol;
 
-    
     
     
 //    CPTMutableLineStyle *googLineStyle = [googPlot.dataLineStyle mutableCopy];

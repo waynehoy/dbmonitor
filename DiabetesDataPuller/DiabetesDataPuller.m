@@ -81,6 +81,7 @@
     }
     
     NSArray* sorted = [result sortedArrayUsingSelector:@selector(compare:)];
+    NSAssert(sorted.count == result.count, @"valid");
     
     return sorted;
 }
