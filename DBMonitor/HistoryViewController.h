@@ -16,6 +16,8 @@
 @interface HistoryViewController : UIViewController <CPTPlotDataSource>
 {
     CPTXYGraph *myGraph;
+    DiabetesDataPuller *myDdp;
+    NSArray *myGlucoseData;
 }
 
 @property (nonatomic, strong) CPTGraphHostingView *hostView;
@@ -37,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *outSelectedTimePeriod;
 - (IBAction)actTimePeriodChanged:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *outPredictionLabel;
+- (IBAction)actRefresh:(id)sender;
 
 -(void)initPlot;
 -(void)configureHost;

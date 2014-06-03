@@ -19,9 +19,9 @@
 {
     // Override point for customization after application launch.
     
-    self.ddp = [[DiabetesDataPuller alloc] init];
-    self.data = [ddp getGlucose:0];
-    NSLog(@"data = %@", self.data);
+//    self.ddp = [[DiabetesDataPuller alloc] init];
+//    self.data = [ddp getGlucose:0];
+//    NSLog(@"data = %@", self.data);
 
     return YES;
 }

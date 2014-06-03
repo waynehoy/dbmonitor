@@ -15,8 +15,6 @@
 #import "CorePlot-CocoaTouch.h"
 
 
-
-
 static const NSString* GRAPH_HIGHLIGHT_ID = @"GRAPH_HIGHLIGHT_ID";
 static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
@@ -44,6 +42,17 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 @synthesize lastDataPt;
 
+
+- (void) _refreshGlucoseDataHelper
+{
+    // TODO
+    myDdp = [[DiabetesDataPuller alloc] init];
+    myGlucoseData = [myDdp getGlucose:0];
+    NSLog(@"data = %@", myGlucoseData);
+
+}
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -55,12 +64,15 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 -(NSArray*)data
 {
-    return (NSArray*)[((id)[[UIApplication sharedApplication] delegate]) data];
+    return myGlucoseData;
+    
+//    return (NSArray*)[((id)[[UIApplication sharedApplication] delegate]) data];
 }
 
 -(DiabetesDataPuller*)ddp
 {
-    return [((id)[[UIApplication sharedApplication] delegate]) ddp];
+    return myDdp;
+//    return [((id)[[UIApplication sharedApplication] delegate]) ddp];
 }
 
 
@@ -69,6 +81,11 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
+    myDdp = nil;
+    myGlucoseData = nil;
+    [self _refreshGlucoseDataHelper];
+    
+    
     NSArray* dateLabels = [NSArray arrayWithObjects:
                            date3,
                            date2,
@@ -272,6 +289,14 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     
     // Just reload the graph
     [self initPlot];
+}
+
+- (IBAction)actRefresh:(id)sender
+{
+    [self _refreshGlucoseDataHelper];
+    [self.view setNeedsDisplay];
+    
+    
 }
 
 -(void)initPlot
