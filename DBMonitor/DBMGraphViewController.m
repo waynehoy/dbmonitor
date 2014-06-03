@@ -35,6 +35,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.ddp = [[DiabetesDataPuller alloc] init];
     self.data = [ddp getGlucose:0];
+    NSLog(@"data = %@", self.data);
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -76,8 +77,8 @@
             {
                 // Assume the numerical range of the X axis is 0.0 to 1.0
                 // And the minTime is at 0.0 and the maxTime is at 1.0
-                double minTime = (double)[self.ddp.minTime timeIntervalSince1970];
-                double maxTime = (double)[self.ddp.maxTime timeIntervalSince1970];
+                double minTime = (double)[self.ddp.startTime timeIntervalSince1970];
+                double maxTime = (double)[self.ddp.endTime timeIntervalSince1970];
                 NSLog(@"%f %f", minTime, maxTime);
                 double timeRange = maxTime - minTime;
                 
@@ -85,7 +86,7 @@
                 
                 NSLog(@"%f %f", curTime, timeRange);
                 
-                double xValue = (curTime / timeRange)*1000;
+                double xValue = (curTime / timeRange);//*1000;
                 NSLog(@"x value is %f", xValue);
                 return [NSNumber numberWithDouble:xValue];
             }
