@@ -26,7 +26,7 @@
 // x- fix axes
 // x- highlight data high/low
 // x- history
-// - alerts
+// - alerts  (4.5 - 7.5)
 // x- one page app
-// - prettyness
-// - way to refresh graph / show variable time frames
+// x- prettyness
+// x- way to refresh graph / show variable time frames
