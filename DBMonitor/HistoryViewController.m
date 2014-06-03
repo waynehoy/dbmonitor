@@ -132,14 +132,16 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 //  Core Plot Data Source methods
 //
 // *********************************************************************
-#define MAXCOUNT ((60 /*min/h*/ / 5 /*min/datapt*/) * 12 /*hours*/) /* data pts per 3 hour interval */
-- (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
+#define MAXCOUNT ((60 /*min/h*/ / 5 /*min/datapt*/) * 24 /*hours*/) /* data pts per 3 hour interval */
+
+// This always returns the number of records in the entire dataset
+// Irrespective of the data series being plotted
+// It is based on the selected segment control item
+//
+- (NSUInteger)numberOfRecordsHelper
 {
-    if(plot.identifier == GRAPH_HIGHLIGHT_ID)
-        return 2;
-    
     // Get the selected segment
-    int numPoints = MAXCOUNT;
+    NSUInteger numPoints = MAXCOUNT;
     switch (self.outSelectedTimePeriod.selectedSegmentIndex) {
         case 0: numPoints = (60/5) * 3;
             break;
@@ -150,11 +152,21 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
         case 3: numPoints = (60/5) * 24;
             break;
     }
-//    NSLog(@"Number of data points is %d", numPoints);
     if (numPoints > MAXCOUNT) {
         return MAXCOUNT;
     }
     return numPoints;
+}
+
+- (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
+{
+    if(plot.identifier == GRAPH_HIGHLIGHT_ID)
+        return 2;
+    
+    return [self numberOfRecordsHelper];
+
+//    NSLog(@"Number of data points is %d", numPoints);
+
     
 //    NSUInteger count = [self data].count;
 //    if(count > MAXCOUNT)
@@ -167,20 +179,27 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
                recordIndex:(NSUInteger)index
 {
     NSUInteger count = [self numberOfRecordsForPlot:plot];
+    NSUInteger requiredCount = [self numberOfRecordsHelper];
     NSArray* dataPts = [self data];
     
     // dataPts is a sorted array (in time) of GlucoseLevel objects
     // The DiabetesDataPuller is pulling in a set the most recent N data points, in forward time order
     // We simply need to compute the segment that we want, based on the selected time period
-    NSArray *subset = [dataPts subarrayWithRange:NSMakeRange([dataPts count]-count, count)];
-//    NSLog(@"subset has %d items", [subset count]);
+    NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
+    NSArray *subset = [dataPts subarrayWithRange:range];
+    NSLog(@"subset has %d items", [subset count]);
     
+    GlucoseLevel *currLevel = nil;
+    if(plot.identifier == GRAPH_HIGHLIGHT_ID) {
+        currLevel = [[[self ddp] getGlucoseExtremesWithinRange:range] objectAtIndex:index];
+        NSLog(@"CurrLevel Extreme is %@", [currLevel description]);
+    }
+    else {
+        currLevel = [subset objectAtIndex:index];
+    }
+
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
-            
-            if(plot.identifier == GRAPH_HIGHLIGHT_ID) {
-                dataPts = [[self ddp] getGlucoseExtremes];
-            }
             
             if (index < count) {
                 // Assume the numerical range of the X axis is 0.0 to 1.0
@@ -190,30 +209,25 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
                 double minTime = (double)[firstObj.time timeIntervalSince1970];
                 double maxTime = (double)[lastObj.time timeIntervalSince1970];
                 
-//                NSLog(@"Start Time is %@, End Time is %@", [firstObj.time description], [lastObj.time description]);
+                NSLog(@"Start Time is %@, End Time is %@", [firstObj.time description], [lastObj.time description]);
                 
                 double timeRange = maxTime - minTime;
-                double curTime = (double)[[[subset objectAtIndex:index] time] timeIntervalSince1970];
-                
+                double curTime = (double)[[currLevel time] timeIntervalSince1970];
                 // percentage of value along axis length
                 double xValue = ((curTime - minTime) / timeRange); //*1000;
                                                                    // NSLog(@"x value is %f", xValue);
+                NSLog(@"Plotting X at %f", xValue);
                 
                 return [NSNumber numberWithDouble:xValue];
                 }
             break;
             
         case CPTScatterPlotFieldY:
-            if(plot.identifier == GRAPH_HIGHLIGHT_ID)
-                {
-                dataPts = [[self ddp] getGlucoseExtremes];
-                }
-            
             if (index < count)
                 {
-                //NSLog(@"y value is %f", [[self.data objectAtIndex:index] glucose]);
+                NSLog(@"y value is %f", [[subset objectAtIndex:index] glucose]);
                     
-                return [NSNumber numberWithFloat:[[subset objectAtIndex:index] glucose]];
+                return [NSNumber numberWithFloat:[currLevel glucose]];
                 }
             break;
     }

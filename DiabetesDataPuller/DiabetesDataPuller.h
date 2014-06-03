@@ -19,8 +19,12 @@
 @property NSDate* startTime;
 @property NSDate* endTime;
 
+@property NSArray *sortedGlucose;
+
 -(NSArray *) getGlucose: (int) numTime;
 -(NSArray*)getGlucoseExtremes;
+-(NSArray *)getGlucoseExtremesWithinRange:(NSRange) range;
+
 -(NSArray *) getAlerts: (int) numAlerts;
 -(int) getPrediction;
 

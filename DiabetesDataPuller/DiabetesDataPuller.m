@@ -21,6 +21,8 @@
 @synthesize startTime;
 @synthesize endTime;
 
+@synthesize sortedGlucose;
+
 -(NSArray *) getGlucose: (int) numTime{
 
     
@@ -90,7 +92,7 @@
     NSArray* sorted = [result sortedArrayUsingSelector:@selector(compare:)];
     NSAssert(sorted.count == result.count, @"valid");
     //NSAssert(sorted.count == 144, @"valid");
-    
+    self.sortedGlucose = sorted;
     return sorted;
 }
 
@@ -105,6 +107,27 @@
     levelmax.glucose = self.maxGlucose;
 
     return [NSArray arrayWithObjects:levelmin, levelmax, nil];
+}
+
+-(NSArray *)getGlucoseExtremesWithinRange:(NSRange) range
+{
+    NSArray *subset = [self.sortedGlucose subarrayWithRange:range];
+    
+    GlucoseLevel *levelMin = nil;
+    GlucoseLevel *levelMax = nil;
+    
+    for (int i = 0; i < [subset count]; i++) {
+        GlucoseLevel *level = [subset objectAtIndex:i];
+        
+        if ((levelMin == nil) || (level.glucose < levelMin.glucose)) {
+            levelMin = level;
+        }
+        if ((levelMax == nil) || (level.glucose > levelMax.glucose)) {
+            levelMax = level;
+        }
+    }
+    
+    return [NSArray arrayWithObjects:levelMin, levelMax, nil];
 }
 
 -(NSArray *) getAlerts: (int) numAlerts{
