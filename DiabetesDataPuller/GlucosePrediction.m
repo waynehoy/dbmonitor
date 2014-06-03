@@ -12,8 +12,8 @@
 
 
 @synthesize time = _time;
-@synthesize reading = _reading;
-@synthesize msg = _msg;
+@synthesize deviation = _deviation;
+@synthesize timeToGo = _timeToGo;
 
 
 // Static singleton accessor methods and preferences
@@ -32,7 +32,7 @@ static int classMaxPredictions = 20;
 + (NSArray *) _refreshPredictionsHelper
 {
     NSURL *alertsUrl = [NSURL URLWithString:
-                            [NSString stringWithFormat:@"http://wotkit.sensetecnic.com/api/sensors/hackathon.glucose/data?beforeE=%d",classMaxPredictions]]; // TODO WKH new URL for predictions
+                            [NSString stringWithFormat:@"http://wotkit.sensetecnic.com/api/sensors/hackathon.prediction-test/data?beforeE=%d",classMaxPredictions]]; // TODO WKH new URL for predictions
     NSURLRequest *request = [NSURLRequest requestWithURL:alertsUrl];
     NSURLResponse *response = nil;
     NSError *error = nil;
@@ -47,18 +47,20 @@ static int classMaxPredictions = 20;
         NSDictionary *dict = [ary objectAtIndex:i];
         
         NSDate *time = [NSDate dateWithTimeIntervalSince1970:([[dict objectForKey:@"timestamp"] doubleValue]/1000)];
-        double reading = [((NSString *)[dict objectForKey:@"value"]) doubleValue];
-        NSString *msg = [dict objectForKey:@"value"];  // TODO WKH Change the key
+        double deviation = [((NSString *)[dict objectForKey:@"deviation"]) doubleValue];
+        double timeToGo = [((NSString *)[dict objectForKey:@"time_to_go"]) doubleValue];
         
-        GlucosePrediction *predict = [[GlucosePrediction alloc] init];
-        predict.time = time;
-        predict.reading = reading;
-        predict.msg = msg;
+        // If the deviation is zero, discard this
+        if (deviation != 0) {
+            GlucosePrediction *predict = [[GlucosePrediction alloc] init];
+            predict.time = time;
+            predict.deviation = deviation;
+            predict.timeToGo = timeToGo;
         
-        [predictObjAry addObject:predict];
+            [predictObjAry addObject:predict];
+        }
     }
-    
-    
+        
     // Sort the array in time, store it in the class variable, and return
     NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: NO];
     //    NSArray *sorted = [ary sortedArrayUsingSelector:@selector(compare:)];

@@ -573,32 +573,86 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     
     // 1- Update the most recent prediction
     GlucosePrediction *predict = [GlucosePrediction lastPrediction];
-    self.outPredictionLabel.text = [NSString stringWithFormat:@"%@ : %.1f", predict.msg, predict.reading];
-    // Update the picture
+    if (predict == nil)
+    {
+        // Hide the picture and the label
+        self.outPredictionLabel.hidden = YES;
+        self.outTrendImage.hidden = YES;
+    }
+    else {
+        self.outPredictionLabel.hidden = NO;
+        self.outPredictionLabel.text = [NSString stringWithFormat:@"%.1f minutes", predict.timeToGo];
+        
+        // Update the picture
+        UIImage *image = nil;
+        if (predict.deviation > 0) {
+            image = [UIImage imageNamed:@"Upperlimit.png"];
+        }
+        else if (predict.deviation < 0) {
+            image = [UIImage imageNamed:@"Lowerlimit.png"];
+            
+        }
+        
+        if (image != nil) {
+            self.outTrendImage.image = image;
+            CATransition *transition = [CATransition animation];
+            transition.duration = 1.0f;
+            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            transition.type = kCATransitionFade;
+            
+            [self.outTrendImage.layer addAnimation:transition forKey:nil];
+        }
+    }
+    
     
     // 2- Update the last 3 preductions
     // Get the alerts, it's sorted in reverse order
     NSArray *predictions = [GlucosePrediction predictionsArray];
-    
+
     // Update the first label
-    predict = [predictions firstObject];
-    self.date1.text = [NSDateFormatter localizedStringFromDate:predict.time
-                                                     dateStyle:0
-                                                     timeStyle:NSDateFormatterShortStyle];
-    self.dataPt1.text = [NSString stringWithFormat:@"%@ : %.2f", predict.msg, predict.reading];
+    
+    if ((predictions != nil) && ([predictions count] >= 1)) {
+        predict = [predictions firstObject];
+        self.date1.text = [NSDateFormatter localizedStringFromDate:predict.time
+                                                         dateStyle:0
+                                                         timeStyle:NSDateFormatterShortStyle];
+        self.dataPt1.text = [NSString stringWithFormat:@"%@ : %.1f minutes",
+                             (predict.deviation > 0) ? @"Upper Limit" : @"Lower Limit",
+                                predict.timeToGo];
+    }
+    else {
+        self.date1.hidden= YES;
+        self.dataPt1.hidden = YES;
+    }
     
     // Update the second label
-    predict = [predictions objectAtIndex:1];
-    self.date2.text = [NSDateFormatter localizedStringFromDate:predict.time
+    if ((predictions != nil) && ([predictions count] >= 2)) {
+        predict = [predictions objectAtIndex:1];
+        self.date2.text = [NSDateFormatter localizedStringFromDate:predict.time
                                                      dateStyle:0
                                                      timeStyle:NSDateFormatterShortStyle];
-    self.dataPt2.text = [NSString stringWithFormat:@"%@ : %.2f", predict.msg, predict.reading];
+        self.dataPt2.text = [NSString stringWithFormat:@"%@ : %.1f minutes",
+                             (predict.deviation > 0) ? @"Upper Limit" : @"Lower Limit",
+                             predict.timeToGo];
+    }
+    else {
+        self.date2.hidden= YES;
+        self.dataPt2.hidden = YES;
+    }
     
     // Update the third label
-    predict = [predictions objectAtIndex:2];
-    self.date3.text = [NSDateFormatter localizedStringFromDate:predict.time
+    if ((predictions != nil) && ([predictions count] >= 3)) {
+        predict = [predictions objectAtIndex:2];
+        self.date3.text = [NSDateFormatter localizedStringFromDate:predict.time
                                                      dateStyle:0
                                                      timeStyle:NSDateFormatterShortStyle];
-    self.dataPt3.text = [NSString stringWithFormat:@"%@ : %.2f", predict.msg, predict.reading];
+        self.dataPt3.text = [NSString stringWithFormat:@"%@ : %.1f minutes",
+                             (predict.deviation > 0) ? @"Upper Limit" : @"Lower Limit",
+                             predict.timeToGo];
+    }
+    else {
+        self.date3.hidden= YES;
+        self.dataPt3.hidden = YES;
+    }
 }
 @end

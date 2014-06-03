@@ -11,8 +11,8 @@
 @interface GlucosePrediction : NSObject
 
 @property NSDate *time;
-@property double reading;
-@property NSString *msg;
+@property double deviation;
+@property double timeToGo;
 
 + (GlucosePrediction *) lastPrediction;
 
