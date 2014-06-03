@@ -27,6 +27,6 @@
 // x- highlight data high/low
 // x- history
 // - alerts
-// - one page app
+// x- one page app
 // - prettyness
 // - way to refresh graph / show variable time frames

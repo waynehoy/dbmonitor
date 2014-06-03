@@ -7,8 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CorePlot-CocoaTouch.h"
 
-@interface HistoryViewController : UIViewController
+@class DiabetesDataPuller;
+
+
+
+@interface HistoryViewController : UIViewController <CPTPlotDataSource>
+{
+    CPTXYGraph *myGraph;
+}
+
+@property (nonatomic, strong) CPTGraphHostingView *hostView;
+@property (nonatomic, strong) CPTTheme *selectedTheme;
 
 @property (nonatomic, strong) IBOutlet UILabel* date1;
 @property (nonatomic, strong) IBOutlet UILabel* date2;
@@ -19,5 +30,12 @@
 @property (nonatomic, strong) IBOutlet UILabel* dataPt3;
 
 @property (nonatomic, strong) IBOutlet UILabel* lastDataPt;
+@property (nonatomic, strong) IBOutlet UIView* graphView;
+
+-(void)initPlot;
+-(void)configureHost;
+-(void)configureGraph;
+-(void)configureChart;
+-(void)configureLegend;
 
 @end
