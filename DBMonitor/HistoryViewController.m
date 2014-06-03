@@ -415,7 +415,17 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     NSMutableSet *xLabels = [NSMutableSet setWithCapacity:dateCount];
     NSMutableSet *xLocations = [NSMutableSet setWithCapacity:dateCount];
     NSInteger i = 0;
-    NSArray* dates = [NSArray arrayWithObjects:[self ddp].startTime, [self ddp].endTime, nil];
+    
+    NSUInteger requiredCount = [self numberOfRecordsHelper];
+    NSArray* dataPts = [self data];
+    
+    // dataPts is a sorted array (in time) of GlucoseLevel objects
+    // The DiabetesDataPuller is pulling in a set the most recent N data points, in forward time order
+    // We simply need to compute the segment that we want, based on the selected time period
+    NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
+    NSArray *subset = [dataPts subarrayWithRange:range];
+    NSArray* dates = [NSArray arrayWithObjects:[[subset firstObject] time], [[subset lastObject] time], nil];
+    NSLog(@"dates:", dates);
     for (NSDate* date in dates)
         {
         NSString* d = [NSDateFormatter localizedStringFromDate:date
