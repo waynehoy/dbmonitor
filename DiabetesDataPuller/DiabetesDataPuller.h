@@ -16,6 +16,9 @@
 @property NSDate* maxTime;
 @property float maxGlucose;
 
+@property NSDate* startTime;
+@property NSDate* endTime;
+
 -(NSArray *) getGlucose: (int) numTime;
 -(NSArray *) getAlerts: (int) numAlerts;
 -(int) getPrediction;
