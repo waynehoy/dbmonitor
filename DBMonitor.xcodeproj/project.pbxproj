@@ -13,6 +13,9 @@
 		A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B01585193D15E800F2A1AB /* HistoryViewController.m */; };
 		B0623E47193BDE9E00E69D92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0623E46193BDE9E00E69D92 /* QuartzCore.framework */; };
 		B0781273193CDE800096D448 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */; };
+		B0CF15B7193E1C6F0089F9B9 /* Lowerlimit.png in Resources */ = {isa = PBXBuildFile; fileRef = B0CF15B5193E1C6F0089F9B9 /* Lowerlimit.png */; };
+		B0CF15B8193E1C6F0089F9B9 /* Upperlimit.png in Resources */ = {isa = PBXBuildFile; fileRef = B0CF15B6193E1C6F0089F9B9 /* Upperlimit.png */; };
+		B0CF15BB193E1F860089F9B9 /* GlucosePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CF15BA193E1F860089F9B9 /* GlucosePrediction.m */; };
 		B0F8CA0A193BCCAE003B6189 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F8CA09193BCCAE003B6189 /* Foundation.framework */; };
 		B0F8CA0C193BCCAE003B6189 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F8CA0B193BCCAE003B6189 /* CoreGraphics.framework */; };
 		B0F8CA0E193BCCAE003B6189 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F8CA0D193BCCAE003B6189 /* UIKit.framework */; };
@@ -129,6 +132,10 @@
 		B07812C0193CDEDA0096D448 /* NSCoderExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCoderExtensions.h; sourceTree = "<group>"; };
 		B07812C1193CDEDA0096D448 /* NSDecimalNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDecimalNumberExtensions.h; sourceTree = "<group>"; };
 		B07812C2193CDEDA0096D448 /* NSNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSNumberExtensions.h; sourceTree = "<group>"; };
+		B0CF15B5193E1C6F0089F9B9 /* Lowerlimit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lowerlimit.png; sourceTree = "<group>"; };
+		B0CF15B6193E1C6F0089F9B9 /* Upperlimit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Upperlimit.png; sourceTree = "<group>"; };
+		B0CF15B9193E1F860089F9B9 /* GlucosePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucosePrediction.h; sourceTree = "<group>"; };
+		B0CF15BA193E1F860089F9B9 /* GlucosePrediction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlucosePrediction.m; sourceTree = "<group>"; };
 		B0F8CA06193BCCAE003B6189 /* DBMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0F8CA09193BCCAE003B6189 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B0F8CA0B193BCCAE003B6189 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -186,6 +193,8 @@
 				4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */,
 				4E1963B2193D238600E3F9F3 /* GlucoseLevel.h */,
 				4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */,
+				B0CF15B9193E1F860089F9B9 /* GlucosePrediction.h */,
+				B0CF15BA193E1F860089F9B9 /* GlucosePrediction.m */,
 			);
 			path = DiabetesDataPuller;
 			sourceTree = "<group>";
@@ -327,6 +336,8 @@
 		B0F8CA10193BCCAE003B6189 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B0CF15B5193E1C6F0089F9B9 /* Lowerlimit.png */,
+				B0CF15B6193E1C6F0089F9B9 /* Upperlimit.png */,
 				B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */,
 				B0F8CA11193BCCAE003B6189 /* DBMonitor-Info.plist */,
 				B0F8CA12193BCCAE003B6189 /* InfoPlist.strings */,
@@ -435,8 +446,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0F8CA22193BCCAF003B6189 /* Images.xcassets in Resources */,
+				B0CF15B7193E1C6F0089F9B9 /* Lowerlimit.png in Resources */,
 				B0F8CA14193BCCAE003B6189 /* InfoPlist.strings in Resources */,
 				B0F8CA1D193BCCAF003B6189 /* Main.storyboard in Resources */,
+				B0CF15B8193E1C6F0089F9B9 /* Upperlimit.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +469,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E1963BB193D238600E3F9F3 /* DiabetesDataPuller.m in Sources */,
+				B0CF15BB193E1F860089F9B9 /* GlucosePrediction.m in Sources */,
 				4E1963BC193D238600E3F9F3 /* GlucoseLevel.m in Sources */,
 				B0F8CA1A193BCCAE003B6189 /* DBMAppDelegate.m in Sources */,
 				4E1963BA193D238600E3F9F3 /* Alert.m in Sources */,

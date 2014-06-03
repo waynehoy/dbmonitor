@@ -9,6 +9,8 @@
 #import "HistoryViewController.h"
 #import "DiabetesDataPuller.h"
 #import "GlucoseLevel.h"
+#import "Alert.h"
+#import "GlucosePrediction.h"
 
 #import "CorePlot-CocoaTouch.h"
 
@@ -21,6 +23,8 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 @interface HistoryViewController ()
 
+- (void) _updateAlertsHelper;
+- (void) _updatePredictionHelper;
 @end
 
 
@@ -99,7 +103,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
         i--;
     }
 
-    lastDataPt.text = [NSString stringWithFormat:@"Most Recent Reading:  %.1f mmol/L" , level];
+    lastDataPt.text = [NSString stringWithFormat:@"%.1f" , level];
     
     GlucoseLevel *lastLevel = [[self data] lastObject];
     self.outLastUpdateLabel.text = [NSString stringWithFormat:@"Last Updated:\n%@",
@@ -107,6 +111,9 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
                                                                    dateStyle:NSDateFormatterShortStyle
                                                                    timeStyle:NSDateFormatterShortStyle]];
 
+    // Setup the alerts and prediction
+    [self _updateAlertsHelper];
+    [self _updatePredictionHelper];
 }
 
 - (void)didReceiveMemoryWarning
@@ -500,4 +507,55 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     return;
 }
 
+// *********************************************************************************
+//
+//  Alerts Section
+//
+// *********************************************************************************
+
+
+- (void) _updateAlertsHelper
+{
+    // Get the alerts, it's sorted in reverse order
+    NSArray *alerts = [Alert alertsArray];
+    
+    // Update the first label
+    Alert *alert = [alerts firstObject];
+    self.date1.text = [NSDateFormatter localizedStringFromDate:alert.time
+                                                     dateStyle:0
+                                                     timeStyle:NSDateFormatterShortStyle];
+    self.dataPt1.text = [NSString stringWithFormat:@"%@ : %@", alert.priority, alert.msg];
+
+    // Update the second label
+    alert = [alerts objectAtIndex:1];
+    self.date2.text = [NSDateFormatter localizedStringFromDate:alert.time
+                                                     dateStyle:0
+                                                     timeStyle:NSDateFormatterShortStyle];
+    self.dataPt2.text = [NSString stringWithFormat:@"%@ : %@", alert.priority, alert.msg];
+
+    // Update the third label
+    alert = [alerts objectAtIndex:2];
+    self.date3.text = [NSDateFormatter localizedStringFromDate:alert.time
+                                                     dateStyle:0
+                                                     timeStyle:NSDateFormatterShortStyle];
+    self.dataPt3.text = [NSString stringWithFormat:@"%@ : %@", alert.priority, alert.msg];
+
+}
+
+
+// *********************************************************************************
+//
+//  Prediction Section
+//
+// *********************************************************************************
+
+
+- (void) _updatePredictionHelper
+{
+    // Get the prediction, it's sorted in reverse order
+    GlucosePrediction *predict = [GlucosePrediction prediction];
+    
+    // Update the label
+    self.outPredictionLabel.text = [NSString stringWithFormat:@"%@ : %.1f", predict.msg, predict.reading];
+}
 @end

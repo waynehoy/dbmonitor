@@ -10,6 +10,14 @@
 
 @interface Alert : NSObject
 
-@property NSString* msg;
+@property NSDate *time;
+@property NSString *priority;
+@property NSString *title;
+@property NSString *msg;
+
++ (void) setMaxAlerts: (int) max;
++ (NSArray *) refreshAlertsArray;
++ (NSArray *) alertsArray;
+
 
 @end

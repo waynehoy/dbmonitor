@@ -32,9 +32,11 @@
 @property (nonatomic, strong) IBOutlet UILabel* lastDataPt;
 @property (nonatomic, strong) IBOutlet UIView* graphView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *outTrendImage;
 @property (weak, nonatomic) IBOutlet UILabel *outLastUpdateLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *outSelectedTimePeriod;
 - (IBAction)actTimePeriodChanged:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *outPredictionLabel;
 
 -(void)initPlot;
 -(void)configureHost;
