@@ -46,5 +46,6 @@
 -(void)configureGraph;
 -(void)configureChart;
 -(void)configureLegend;
+-(void)displayAlert:(id)arg;
 
 @end

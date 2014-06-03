@@ -303,6 +303,23 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     [self initPlot];
     
     [self refreshLastUpdatedLabel];
+    
+    [self performSelector:@selector(displayAlert:) withObject:nil afterDelay:4];
+}
+
+-(void)displayAlert:(id)arg
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Blood Glucose Warning"
+                                                    message:@"Your glucose levels need attention."
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 -(void)initPlot
