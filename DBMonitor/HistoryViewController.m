@@ -425,7 +425,6 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
     NSArray *subset = [dataPts subarrayWithRange:range];
     NSArray* dates = [NSArray arrayWithObjects:[[subset firstObject] time], [[subset lastObject] time], nil];
-    NSLog(@"dates:", dates);
     for (NSDate* date in dates)
         {
         NSString* d = [NSDateFormatter localizedStringFromDate:date
