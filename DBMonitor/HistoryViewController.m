@@ -336,11 +336,21 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 -(void)displayAlert:(id)arg
 {
+    GlucosePrediction* prediction = [GlucosePrediction lastPrediction];
+    
+    NSString* custom = nil;
+    if(prediction.deviation > 0){
+        custom = [NSString stringWithFormat:@"Your glucose levels need attention. It has an upward deviation, estimated danger time:%.1f", prediction.timeToGo];
+    }else if(prediction.deviation<0){
+        custom = [NSString stringWithFormat:@"Your glucose levels need attention. It has a downward deviation, estimated danger time:%.1f", prediction.timeToGo];
+    }
+    
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Blood Glucose Warning"
-                                                    message:@"Your glucose levels need attention."
+                                                    message:custom
                                                    delegate:self
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
+    
     [alert show];
 }
 
