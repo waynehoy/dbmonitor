@@ -193,6 +193,33 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     return numPoints;
 }
 
+-(CPTLayer*)dataLabelForPlot:(CPTPlot*)plot
+                 recordIndex:(NSUInteger)index
+{
+    if(plot.identifier == GRAPH_HIGHLIGHT_ID)
+    {
+        NSUInteger requiredCount = [self numberOfRecordsHelper];
+        NSArray* dataPts = [self data];
+    
+        // dataPts is a sorted array (in time) of GlucoseLevel objects
+        // The DiabetesDataPuller is pulling in a set the most recent N data points, in forward time order
+        // We simply need to compute the segment that we want, based on the selected time period
+        NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
+        GlucoseLevel *currLevel = currLevel = [[[self ddp] getGlucoseExtremesWithinRange:range] objectAtIndex:index];
+    
+        CPTMutableTextStyle *hitAnnotationTextStyle = [CPTMutableTextStyle textStyle];
+        hitAnnotationTextStyle.color = [CPTColor whiteColor];
+        hitAnnotationTextStyle.fontSize = 9.0f;
+        hitAnnotationTextStyle.fontName = @"Helvetica";
+
+        CPTTextLayer* textLayer = [[CPTTextLayer alloc] initWithText:[NSString stringWithFormat:@"%.1f", currLevel.glucose]
+                                                               style:hitAnnotationTextStyle];
+        return textLayer;
+    }
+    
+    return nil;// (id)[NSNull null];
+}
+
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
     if(plot.identifier == GRAPH_HIGHLIGHT_ID)
@@ -269,10 +296,10 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     return [NSDecimalNumber zero];
 }
 
--(CPTLayer *)dataLabelForPlot:(CPTPlot*)plot recordIndex:(NSUInteger)index
-{
-    return nil;
-}
+//-(CPTLayer *)dataLabelForPlot:(CPTPlot*)plot recordIndex:(NSUInteger)index
+//{
+//    return nil;
+//}
 
 
 -(NSString *)legendTitleForPieChart:(CPTPieChart *)pieChart recordIndex:(NSUInteger)index {
@@ -373,7 +400,11 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     [graph.plotAreaFrame setPaddingRight:50.0f];
     [graph.plotAreaFrame setPaddingLeft:50.0f];
     [graph.plotAreaFrame setPaddingBottom:30.0f];
-    
+
+    [graph setPaddingRight:30.0f];
+    [graph setPaddingLeft:30.0f];
+//    [graph setPaddingBottom:30.0f];
+
     // 5 - Enable user interactions for plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
     plotSpace.allowsUserInteraction = NO;
