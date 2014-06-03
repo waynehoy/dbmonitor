@@ -138,10 +138,28 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     if(plot.identifier == GRAPH_HIGHLIGHT_ID)
         return 2;
     
-    NSUInteger count = [self data].count;
-    if(count > MAXCOUNT)
+    // Get the selected segment
+    int numPoints = MAXCOUNT;
+    switch (self.outSelectedTimePeriod.selectedSegmentIndex) {
+        case 0: numPoints = (60/5) * 3;
+            break;
+        case 1: numPoints = (60/5) * 6;
+            break;
+        case 2: numPoints = (60/5) * 12;
+            break;
+        case 3: numPoints = (60/5) * 24;
+            break;
+    }
+//    NSLog(@"Number of data points is %d", numPoints);
+    if (numPoints > MAXCOUNT) {
         return MAXCOUNT;
-    return count;
+    }
+    return numPoints;
+    
+//    NSUInteger count = [self data].count;
+//    if(count > MAXCOUNT)
+//        return MAXCOUNT;
+//    return count;
 }
 
 -(NSNumber *)numberForPlot:(CPTPlot *)plot
@@ -151,23 +169,31 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     NSUInteger count = [self numberOfRecordsForPlot:plot];
     NSArray* dataPts = [self data];
     
+    // dataPts is a sorted array (in time) of GlucoseLevel objects
+    // The DiabetesDataPuller is pulling in a set the most recent N data points, in forward time order
+    // We simply need to compute the segment that we want, based on the selected time period
+    NSArray *subset = [dataPts subarrayWithRange:NSMakeRange([dataPts count]-count, count)];
+//    NSLog(@"subset has %d items", [subset count]);
+    
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
             
-            if(plot.identifier == GRAPH_HIGHLIGHT_ID)
-                {
+            if(plot.identifier == GRAPH_HIGHLIGHT_ID) {
                 dataPts = [[self ddp] getGlucoseExtremes];
-                }
+            }
             
-            if (index < count)
-                {
+            if (index < count) {
                 // Assume the numerical range of the X axis is 0.0 to 1.0
                 // And the minTime is at 0.0 and the maxTime is at 1.0
-                double minTime = (double)[[self ddp].startTime timeIntervalSince1970];
-                double maxTime = (double)[[self ddp].endTime timeIntervalSince1970];
+                GlucoseLevel *firstObj = [subset firstObject];
+                GlucoseLevel *lastObj = [subset lastObject];
+                double minTime = (double)[firstObj.time timeIntervalSince1970];
+                double maxTime = (double)[lastObj.time timeIntervalSince1970];
+                
+//                NSLog(@"Start Time is %@, End Time is %@", [firstObj.time description], [lastObj.time description]);
                 
                 double timeRange = maxTime - minTime;
-                double curTime = (double)[[[dataPts objectAtIndex:index] time] timeIntervalSince1970];
+                double curTime = (double)[[[subset objectAtIndex:index] time] timeIntervalSince1970];
                 
                 // percentage of value along axis length
                 double xValue = ((curTime - minTime) / timeRange); //*1000;
@@ -186,7 +212,8 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
             if (index < count)
                 {
                 //NSLog(@"y value is %f", [[self.data objectAtIndex:index] glucose]);
-                return [NSNumber numberWithFloat:[[dataPts objectAtIndex:index] glucose]];
+                    
+                return [NSNumber numberWithFloat:[[subset objectAtIndex:index] glucose]];
                 }
             break;
     }
@@ -210,6 +237,15 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 //  Core Plot chart setup methods
 //
 // *********************************************************************
+
+- (IBAction)actTimePeriodChanged:(id)sender {
+    UISegmentedControl *seg = (UISegmentedControl *)sender;
+    NSLog(@"Sender is %@", [seg description]);
+    NSLog(@"Selected Index is %d", [seg selectedSegmentIndex]);
+    
+    // Just reload the graph
+    [self initPlot];
+}
 
 -(void)initPlot
 {

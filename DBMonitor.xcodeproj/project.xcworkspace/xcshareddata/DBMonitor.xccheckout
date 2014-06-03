@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>3D9830CB-4502-44C8-B1B0-68EB4A208F31</string>
+	<string>34A97956-39B9-4B41-B198-901F5DE19FEA</string>
 	<key>IDESourceControlProjectName</key>
 	<string>DBMonitor</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>3A3A9BE3-72CE-4234-8641-73D8809388D7</key>
-		<string>https://github.com/waynehoy/dbmonitor</string>
+		<key>D67571DA-7A45-4747-BCD5-247A7FA7C908</key>
+		<string>https://github.com/waynehoy/dbmonitor.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>DBMonitor.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>3A3A9BE3-72CE-4234-8641-73D8809388D7</key>
+		<key>D67571DA-7A45-4747-BCD5-247A7FA7C908</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/waynehoy/dbmonitor</string>
+	<string>https://github.com/waynehoy/dbmonitor.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>3A3A9BE3-72CE-4234-8641-73D8809388D7</string>
+	<string>D67571DA-7A45-4747-BCD5-247A7FA7C908</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>3A3A9BE3-72CE-4234-8641-73D8809388D7</string>
+			<string>D67571DA-7A45-4747-BCD5-247A7FA7C908</string>
 			<key>IDESourceControlWCCName</key>
 			<string>dbmonitor</string>
 		</dict>
