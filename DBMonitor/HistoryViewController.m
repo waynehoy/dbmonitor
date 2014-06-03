@@ -121,15 +121,20 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
     lastDataPt.text = [NSString stringWithFormat:@"%.1f" , level];
     
+    [self refreshLastUpdatedLabel];
+    
+    // Setup the alerts and prediction
+    [self _updateAlertsHelper];
+    [self _updatePredictionHelper];
+}
+
+-(void)refreshLastUpdatedLabel
+{
     GlucoseLevel *lastLevel = [[self data] lastObject];
     self.outLastUpdateLabel.text = [NSString stringWithFormat:@"Last Updated:\n%@",
                                     [NSDateFormatter localizedStringFromDate:lastLevel.time
                                                                    dateStyle:NSDateFormatterShortStyle
                                                                    timeStyle:NSDateFormatterShortStyle]];
-
-    // Setup the alerts and prediction
-    [self _updateAlertsHelper];
-    [self _updatePredictionHelper];
 }
 
 - (void)didReceiveMemoryWarning
@@ -294,9 +299,10 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 - (IBAction)actRefresh:(id)sender
 {
     [self _refreshGlucoseDataHelper];
-    [self.view setNeedsDisplay];
+    [self _updatePredictionHelper];
+    [self initPlot];
     
-    
+    [self refreshLastUpdatedLabel];
 }
 
 -(void)initPlot
@@ -554,6 +560,8 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 - (void) _updatePredictionHelper
 {
+    [GlucosePrediction refreshPredictionsArray];
+    
     // 1- Update the most recent prediction
     GlucosePrediction *predict = [GlucosePrediction lastPrediction];
     self.outPredictionLabel.text = [NSString stringWithFormat:@"%@ : %.1f", predict.msg, predict.reading];

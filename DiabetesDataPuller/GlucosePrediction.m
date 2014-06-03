@@ -32,7 +32,7 @@ static int classMaxPredictions = 20;
 + (NSArray *) _refreshPredictionsHelper
 {
     NSURL *alertsUrl = [NSURL URLWithString:
-                            [NSString stringWithFormat:@"http://wotkit.sensetecnic.com/api/sensors/mike.glucose/data?beforeE=%d",classMaxPredictions]]; // TODO WKH new URL for predictions
+                            [NSString stringWithFormat:@"http://wotkit.sensetecnic.com/api/sensors/hackathon.glucose/data?beforeE=%d",classMaxPredictions]]; // TODO WKH new URL for predictions
     NSURLRequest *request = [NSURLRequest requestWithURL:alertsUrl];
     NSURLResponse *response = nil;
     NSError *error = nil;
