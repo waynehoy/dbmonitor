@@ -161,14 +161,15 @@
     // 3 - Create and set text style
     CPTMutableTextStyle *titleStyle = [CPTMutableTextStyle textStyle];
     titleStyle.color = [CPTColor whiteColor];
-    titleStyle.fontName = @"Helvetica";
+    titleStyle.fontName = @"Helvetica-Bold";
     titleStyle.fontSize = 10.0f;
     graph.titleTextStyle = titleStyle;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
     
     // 4 - Set padding for plot area
-    [graph.plotAreaFrame setPaddingLeft:30.0f];
+    [graph.plotAreaFrame setPaddingRight:50.0f];
+    [graph.plotAreaFrame setPaddingLeft:50.0f];
     [graph.plotAreaFrame setPaddingBottom:30.0f];
     
     // 5 - Enable user interactions for plot space
@@ -228,31 +229,62 @@
     plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(xMin) length:CPTDecimalFromFloat(xMax)];
     plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(yMin) length:CPTDecimalFromFloat(yMax)];
 
-//    // 1 - Configure styles
-//    CPTMutableTextStyle *axisTitleStyle = [CPTMutableTextStyle textStyle];
-//    axisTitleStyle.color = [CPTColor whiteColor];
-//    axisTitleStyle.fontName = @"Helvetica-Bold";
-//    axisTitleStyle.fontSize = 12.0f;
-//    CPTMutableLineStyle *axisLineStyle = [CPTMutableLineStyle lineStyle];
-//    axisLineStyle.lineWidth = 2.0f;
-//    axisLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:1];
-//
-//    // 2 - Get the graph's axis set
-//    CPTXYAxisSet *axisSet = (CPTXYAxisSet *) self.hostView.hostedGraph.axisSet;
-//
-//    // 3 - Configure the x-axis
-//    axisSet.xAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
-//    axisSet.xAxis.title = @"Days of Week (Mon - Fri)";
-//    axisSet.xAxis.titleTextStyle = axisTitleStyle;
-//    axisSet.xAxis.titleOffset = 10.0f;
-//    axisSet.xAxis.axisLineStyle = axisLineStyle;
-//
-//    // 4 - Configure the y-axis
-//    axisSet.yAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
-//    axisSet.yAxis.title = @"Price";
-//    axisSet.yAxis.titleTextStyle = axisTitleStyle;
-//    axisSet.yAxis.titleOffset = 5.0f;
-//    axisSet.yAxis.axisLineStyle = axisLineStyle;
+    
+    // 1 - Configure styles
+    CPTMutableTextStyle *axisTitleStyle = [CPTMutableTextStyle textStyle];
+    axisTitleStyle.color = [CPTColor whiteColor];
+    axisTitleStyle.fontName = @"Helvetica-Bold";
+    axisTitleStyle.fontSize = 10.0f;
+    CPTMutableLineStyle *axisLineStyle = [CPTMutableLineStyle lineStyle];
+    axisLineStyle.lineWidth = 2.0f;
+    axisLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:1];
+
+    // 2 - Get the graph's axis set
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *) self.hostView.hostedGraph.axisSet;
+
+    // 3 - Configure the x-axis
+    axisSet.xAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
+    //axisSet.xAxis.title = @"Time (12 hour interval)";
+    axisSet.xAxis.titleTextStyle = axisTitleStyle;
+    axisSet.xAxis.titleOffset = 10.0f;
+    axisSet.xAxis.axisLineStyle = axisLineStyle;
+
+    axisSet.xAxis.labelTextStyle = axisTitleStyle;
+    axisSet.xAxis.majorTickLineStyle = axisLineStyle;
+    axisSet.xAxis.majorTickLength = 4.0f;
+    axisSet.xAxis.tickDirection = CPTSignNegative;
+    
+    CGFloat dateCount = 2;
+    NSMutableSet *xLabels = [NSMutableSet setWithCapacity:dateCount];
+    NSMutableSet *xLocations = [NSMutableSet setWithCapacity:dateCount];
+    NSInteger i = 0;
+    NSArray* dates = [NSArray arrayWithObjects:self.ddp.startTime, self.ddp.endTime, nil];
+    for (NSDate* date in dates)
+    {
+        NSString* d = [NSDateFormatter localizedStringFromDate:date
+                                                     dateStyle:NSDateFormatterShortStyle
+                                                     timeStyle:NSDateFormatterShortStyle];
+
+        CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:d  textStyle:axisSet.xAxis.labelTextStyle];
+        CGFloat location = i++;
+        label.tickLocation = CPTDecimalFromCGFloat(location);
+        label.offset = axisSet.xAxis.majorTickLength;
+        if (label)
+        {
+            [xLabels addObject:label];
+            [xLocations addObject:[NSNumber numberWithFloat:location]];
+        }
+    }
+    axisSet.xAxis.axisLabels = xLabels;
+    axisSet.xAxis.majorTickLocations = xLocations;
+    
+    // 4 - Configure the y-axis
+    axisSet.yAxis.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
+    //axisSet.yAxis.title = @"Blood Glucose (mmol/L)";
+    axisSet.yAxis.titleTextStyle = axisTitleStyle;
+    axisSet.yAxis.labelTextStyle = axisTitleStyle;
+    axisSet.yAxis.titleOffset = 5.0f;
+    axisSet.yAxis.axisLineStyle = axisLineStyle;
 
     
     // 4 - Create styles and symbols

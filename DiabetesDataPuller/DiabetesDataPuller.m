@@ -40,7 +40,14 @@
     
     for (NSDictionary* dic in ary) {
         float value = [dic[@"value"] floatValue];
+        
+        //NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        //NSString *input = dic[@"timestamp_iso"];//@"2013-05-08T19:03:53+00:00";
+        //                         "timestamp_iso" = "2014-06-02T10:28:00.000Z";
+        //[dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"]; //iso 8601 format
+        //NSDate *date = [dateFormat dateFromString:input];
         NSDate* date = [NSDate dateWithTimeIntervalSince1970: [dic[@"timestamp"] doubleValue]/1000];
+        NSAssert(date, @"valid");
         
         GlucoseLevel* level = [[GlucoseLevel alloc] init];
         level.time = date;
@@ -82,6 +89,7 @@
     
     NSArray* sorted = [result sortedArrayUsingSelector:@selector(compare:)];
     NSAssert(sorted.count == result.count, @"valid");
+    //NSAssert(sorted.count == 144, @"valid");
     
     return sorted;
 }
