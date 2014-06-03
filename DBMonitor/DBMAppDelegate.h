@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+@class DiabetesDataPuller;
 
 @interface DBMAppDelegate : UIResponder <UIApplicationDelegate>
-
+{
+    NSArray* data;
+    DiabetesDataPuller* ddp;
+}
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) DiabetesDataPuller* ddp;
+@property (nonatomic, strong) NSArray* data;
 
 @end
 
@@ -18,8 +24,8 @@
 
 // TODO:
 // x- fix axes
-// - highlight data high/low
-// - history
+// x- highlight data high/low
+// x- history
 // - alerts
 // - one page app
 // - prettyness

@@ -7,12 +7,22 @@
 //
 
 #import "DBMAppDelegate.h"
+#import "DiabetesDataPuller.h"
 
 @implementation DBMAppDelegate
+
+
+@synthesize data = data;
+@synthesize ddp = ddp;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    self.ddp = [[DiabetesDataPuller alloc] init];
+    self.data = [ddp getGlucose:0];
+    NSLog(@"data = %@", self.data);
+
     return YES;
 }
 							

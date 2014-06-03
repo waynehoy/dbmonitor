@@ -14,16 +14,11 @@
 @interface DBMGraphViewController : UIViewController <CPTPlotDataSource>
 {
     CPTXYGraph *myGraph;
-    
-    NSArray* data;
-    DiabetesDataPuller* ddp;
 }
 
 @property (nonatomic, strong) CPTGraphHostingView *hostView;
 @property (nonatomic, strong) CPTTheme *selectedTheme;
 
-@property (nonatomic, strong) DiabetesDataPuller* ddp;
-@property (nonatomic, strong) NSArray* data;
 
 -(void)initPlot;
 -(void)configureHost;

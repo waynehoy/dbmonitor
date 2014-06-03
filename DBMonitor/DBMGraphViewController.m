@@ -14,6 +14,9 @@
 
 @interface DBMGraphViewController ()
 
+-(NSArray*)data;
+-(DiabetesDataPuller*)ddp;
+
 @end
 
 
@@ -26,18 +29,21 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 @synthesize hostView = _hostView;
 @synthesize selectedTheme = _selectedTheme;
 
-@synthesize data = data;
-@synthesize ddp = ddp;
+-(NSArray*)data
+{
+    return (NSArray*)[((id)[[UIApplication sharedApplication] delegate]) data];
+}
 
+-(DiabetesDataPuller*)ddp
+{
+    return [((id)[[UIApplication sharedApplication] delegate]) ddp];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
 	// Do any additional setup after loading the view, typically from a nib.
-    self.ddp = [[DiabetesDataPuller alloc] init];
-    self.data = [ddp getGlucose:0];
-    NSLog(@"data = %@", self.data);
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -64,7 +70,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     if(plot.identifier == GRAPH_HIGHLIGHT_ID)
         return 2;
     
-    NSUInteger count = self.data.count;
+    NSUInteger count = [self data].count;
     if(count > MAXCOUNT)
         return MAXCOUNT;
     return count;
@@ -75,22 +81,22 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
                recordIndex:(NSUInteger)index
 {
     NSUInteger count = [self numberOfRecordsForPlot:plot];
-    NSArray* dataPts = self.data;
+    NSArray* dataPts = [self data];
     
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
 
             if(plot.identifier == GRAPH_HIGHLIGHT_ID)
             {
-                dataPts = [ddp getGlucoseExtremes];
+                dataPts = [[self ddp] getGlucoseExtremes];
             }
             
             if (index < count)
             {
                 // Assume the numerical range of the X axis is 0.0 to 1.0
                 // And the minTime is at 0.0 and the maxTime is at 1.0
-                double minTime = (double)[self.ddp.startTime timeIntervalSince1970];
-                double maxTime = (double)[self.ddp.endTime timeIntervalSince1970];
+                double minTime = (double)[[self ddp].startTime timeIntervalSince1970];
+                double maxTime = (double)[[self ddp].endTime timeIntervalSince1970];
 
                 double timeRange = maxTime - minTime;
                 double curTime = (double)[[[dataPts objectAtIndex:index] time] timeIntervalSince1970];
@@ -106,7 +112,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
         case CPTScatterPlotFieldY:
             if(plot.identifier == GRAPH_HIGHLIGHT_ID)
             {
-                dataPts = [ddp getGlucoseExtremes];
+                dataPts = [[self ddp] getGlucoseExtremes];
             }
 
             if (index < count)
@@ -205,38 +211,10 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     aaplPlot.dataSource = self;
     aaplPlot.identifier = GRAPH_ALL_ID;    // WKH TODO Enum for the plot ID (series)
     
-    //id beginColor   = [CPTColor colorWithComponentRed:0.168f green:0.547f blue:0.54f alpha:0.5f];
-    //id endColor     = [CPTColor colorWithComponentRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
-    //[aaplPlot setAreaFill:[CPTFill fillWithGradient:[CPTGradient gradientWithBeginningColor:beginColor
-    //                                                                             endingColor:endColor]]];
-    //NSDecimalNumber *intermediateNumber = [[NSDecimalNumber alloc] initWithFloat:0.0];
-    //NSDecimal decimal = [intermediateNumber decimalValue];
-    //[aaplPlot setAreaBaseValue:decimal];
     
     CPTColor *aaplColor = [CPTColor colorWithComponentRed:0.168f green:0.547f blue:0.54f alpha:0.5f];
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
-
-    
-//    CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
-//    googPlot.dataSource = self;
-//    googPlot.identifier = CPDTickerSymbolGOOG;
-//    CPTColor *googColor = [CPTColor greenColor];
-//    [graph addPlot:googPlot toPlotSpace:plotSpace];
-//    CPTScatterPlot *msftPlot = [[CPTScatterPlot alloc] init];
-//    msftPlot.dataSource = self;
-//    msftPlot.identifier = CPDTickerSymbolMSFT;
-//    CPTColor *msftColor = [CPTColor blueColor];
-//    [graph addPlot:msftPlot toPlotSpace:plotSpace];
-
-    // 3 - Set up plot space
-//    [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
-//    CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
-//    [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
-//    plotSpace.xRange = xRange;
-//    CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
-//    [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
-//    plotSpace.yRange = yRange;
 
     
     CGFloat xMin = 0.0f;
@@ -275,7 +253,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     NSMutableSet *xLabels = [NSMutableSet setWithCapacity:dateCount];
     NSMutableSet *xLocations = [NSMutableSet setWithCapacity:dateCount];
     NSInteger i = 0;
-    NSArray* dates = [NSArray arrayWithObjects:self.ddp.startTime, self.ddp.endTime, nil];
+    NSArray* dates = [NSArray arrayWithObjects:[self ddp].startTime, [self ddp].endTime, nil];
     for (NSDate* date in dates)
     {
         NSString* d = [NSDateFormatter localizedStringFromDate:date
@@ -319,8 +297,10 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
     
     
-    
+    //
     // secondary plot (highlights -- only ever two data pts for min/max)
+    //
+    
     CPTScatterPlot *highlightlPlot = [[CPTScatterPlot alloc] init];
     highlightlPlot.dataSource = self;
     highlightlPlot.identifier = GRAPH_HIGHLIGHT_ID;    // WKH TODO Enum for the plot ID (series)
@@ -342,8 +322,50 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     highlightlPlot.plotSymbol = highlightSymbol;
     
     
-
-
+//    
+//    static CPTMutableTextStyle *style = nil;
+//    if (!style) {
+//        style = [CPTMutableTextStyle textStyle];
+//        style.color= [CPTColor yellowColor];
+//        style.fontSize = 16.0f;
+//        style.fontName = @"Helvetica-Bold";
+//    }
+//    // 3 - Create annotation, if necessary
+//    NSNumber *price = [self numberForPlot:plot field:CPTBarPlotFieldBarTip recordIndex:index];
+//    if (!self.priceAnnotation) {
+//        NSNumber *x = [NSNumber numberWithInt:0];
+//        NSNumber *y = [NSNumber numberWithInt:0];
+//        NSArray *anchorPoint = [NSArray arrayWithObjects:x, y, nil];
+//        self.priceAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:plot.plotSpace anchorPlotPoint:anchorPoint];
+//    }
+//    // 4 - Create number formatter, if needed
+//    static NSNumberFormatter *formatter = nil;
+//    if (!formatter) {
+//        formatter = [[NSNumberFormatter alloc] init];
+//        [formatter setMaximumFractionDigits:2];
+//    }
+//    // 5 - Create text layer for annotation
+//    NSString *priceValue = [formatter stringFromNumber:price];
+//    CPTTextLayer *textLayer = [[CPTTextLayer alloc] initWithText:priceValue style:style];
+//    self.priceAnnotation.contentLayer = textLayer;
+//    // 6 - Get plot index based on identifier
+//    NSInteger plotIndex = 0;
+//    if ([plot.identifier isEqual:CPDTickerSymbolAAPL] == YES) {
+//        plotIndex = 0;
+//    } else if ([plot.identifier isEqual:CPDTickerSymbolGOOG] == YES) {
+//        plotIndex = 1;
+//    } else if ([plot.identifier isEqual:CPDTickerSymbolMSFT] == YES) {
+//        plotIndex = 2;
+//    }
+//    // 7 - Get the anchor point for annotation
+//    CGFloat x = index + CPDBarInitialX + (plotIndex * CPDBarWidth);
+//    NSNumber *anchorX = [NSNumber numberWithFloat:x];
+//    CGFloat y = [price floatValue] + 40.0f;
+//    NSNumber *anchorY = [NSNumber numberWithFloat:y];
+//    self.priceAnnotation.anchorPlotPoint = [NSArray arrayWithObjects:anchorX, anchorY, nil];
+//    // 8 - Add the annotation 
+//    [plot.graph.plotAreaFrame.plotArea addAnnotation:self.priceAnnotation];
+//    
     
     return;
 }

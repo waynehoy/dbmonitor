@@ -7,6 +7,9 @@
 //
 
 #import "HistoryViewController.h"
+#import "DiabetesDataPuller.h"
+#import "GlucoseLevel.h"
+
 
 @interface HistoryViewController ()
 
@@ -33,36 +36,56 @@
     return self;
 }
 
+-(NSArray*)data
+{
+    return (NSArray*)[((id)[[UIApplication sharedApplication] delegate]) data];
+}
+
+-(DiabetesDataPuller*)ddp
+{
+    return [((id)[[UIApplication sharedApplication] delegate]) ddp];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
     NSArray* dateLabels = [NSArray arrayWithObjects:
-                           date1,
-                           date2,
                            date3,
+                           date2,
+                           date1,
                            nil];
     
+    NSUInteger i = 2;
+    NSAssert([[self data] count] > 2, @"valid"); // fixme, yes this is dumb
     for(UILabel* l in dateLabels)
     {
-        l.text = @"June 2 @ 9:00am";
+        // l.text = @"June 2 @ 9:00am";
+        NSDate* date = [[[self data] objectAtIndex:[[self data] count] - 1 - i] time];
+        l.text = [NSDateFormatter localizedStringFromDate:date
+                                                dateStyle:NSDateFormatterShortStyle
+                                                timeStyle:NSDateFormatterShortStyle];
+        i--;
     }
     
     NSArray* dataLabels = [NSArray arrayWithObjects:
-                           dataPt1,
-                           dataPt2,
                            dataPt3,
+                           dataPt2,
+                           dataPt1,
                            nil];
-    
+    i = 2;
+    float level = 0;
     for(UILabel* l in dataLabels)
     {
-        l.text = @"9.2 mmol/L -- BG low";
+        // l.text = @"9.2 mmol/L -- BG low";
+        level = [[[self data] objectAtIndex:[[self data] count] - 1 - i] glucose];
+        l.text = [NSString stringWithFormat:@"%.1f mmol/L", level];
+        i--;
     }
 
-    
-    
-    lastDataPt.text = [NSString stringWithFormat:@"Last Blood Glucose Reading:  %.1f mmol/L" , 9.2];
+    lastDataPt.text = [NSString stringWithFormat:@"Last Blood Glucose Reading:  %.1f mmol/L" , level];
 }
 
 - (void)didReceiveMemoryWarning
