@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4E1963BA193D238600E3F9F3 /* Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963AE193D238600E3F9F3 /* Alert.m */; };
 		4E1963BB193D238600E3F9F3 /* DiabetesDataPuller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */; };
 		4E1963BC193D238600E3F9F3 /* GlucoseLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */; };
 		A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B01585193D15E800F2A1AB /* HistoryViewController.m */; };
@@ -43,8 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4E1963AD193D238600E3F9F3 /* Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alert.h; sourceTree = "<group>"; };
-		4E1963AE193D238600E3F9F3 /* Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alert.m; sourceTree = "<group>"; };
 		4E1963AF193D238600E3F9F3 /* DiabetesDataPuller-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiabetesDataPuller-Prefix.pch"; sourceTree = "<group>"; };
 		4E1963B0193D238600E3F9F3 /* DiabetesDataPuller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiabetesDataPuller.h; sourceTree = "<group>"; };
 		4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiabetesDataPuller.m; sourceTree = "<group>"; };
@@ -186,8 +183,6 @@
 		4E1963AC193D238600E3F9F3 /* DiabetesDataPuller */ = {
 			isa = PBXGroup;
 			children = (
-				4E1963AD193D238600E3F9F3 /* Alert.h */,
-				4E1963AE193D238600E3F9F3 /* Alert.m */,
 				4E1963AF193D238600E3F9F3 /* DiabetesDataPuller-Prefix.pch */,
 				4E1963B0193D238600E3F9F3 /* DiabetesDataPuller.h */,
 				4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */,
@@ -473,7 +468,6 @@
 				B0CF15BB193E1F860089F9B9 /* GlucosePrediction.m in Sources */,
 				4E1963BC193D238600E3F9F3 /* GlucoseLevel.m in Sources */,
 				B0F8CA1A193BCCAE003B6189 /* DBMAppDelegate.m in Sources */,
-				4E1963BA193D238600E3F9F3 /* Alert.m in Sources */,
 				B0F8CA16193BCCAE003B6189 /* main.m in Sources */,
 				B0F8CA20193BCCAF003B6189 /* DBMGraphViewController.m in Sources */,
 				A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */,

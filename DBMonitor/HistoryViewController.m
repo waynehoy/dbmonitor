@@ -9,7 +9,6 @@
 #import "HistoryViewController.h"
 #import "DiabetesDataPuller.h"
 #import "GlucoseLevel.h"
-#import "Alert.h"
 #import "GlucosePrediction.h"
 
 #import "CorePlot-CocoaTouch.h"
