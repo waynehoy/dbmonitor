@@ -196,7 +196,8 @@
 				B0CF15B9193E1F860089F9B9 /* GlucosePrediction.h */,
 				B0CF15BA193E1F860089F9B9 /* GlucosePrediction.m */,
 			);
-			path = DiabetesDataPuller;
+			name = DiabetesDataPuller;
+			path = DBMonitor/DiabetesDataPuller;
 			sourceTree = "<group>";
 		};
 		B0781274193CDEDA0096D448 /* CorePlotHeaders */ = {
@@ -615,7 +616,7 @@
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C3870378-CAFE-4AB9-9482-34BA3AA6C135";
+				PROVISIONING_PROFILE = "A08F39F1-DAB0-4E2D-82ED-77666D1F2EBD";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -641,7 +642,7 @@
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C3870378-CAFE-4AB9-9482-34BA3AA6C135";
+				PROVISIONING_PROFILE = "A08F39F1-DAB0-4E2D-82ED-77666D1F2EBD";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";

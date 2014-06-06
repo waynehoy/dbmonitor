@@ -249,7 +249,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     // We simply need to compute the segment that we want, based on the selected time period
     NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
     NSArray *subset = [dataPts subarrayWithRange:range];
-    NSLog(@"subset has %d items", [subset count]);
+    NSLog(@"subset has %d items", (int)[subset count]);
     
     GlucoseLevel *currLevel = nil;
     if(plot.identifier == GRAPH_HIGHLIGHT_ID) {
@@ -317,7 +317,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 - (IBAction)actTimePeriodChanged:(id)sender {
     UISegmentedControl *seg = (UISegmentedControl *)sender;
     NSLog(@"Sender is %@", [seg description]);
-    NSLog(@"Selected Index is %d", [seg selectedSegmentIndex]);
+    NSLog(@"Selected Index is %d", (int)[seg selectedSegmentIndex]);
     
     // Just reload the graph
     [self initPlot];
