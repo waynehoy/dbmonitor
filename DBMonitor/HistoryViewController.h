@@ -16,8 +16,6 @@
 @interface HistoryViewController : UIViewController <CPTPlotDataSource>
 {
     CPTXYGraph *myGraph;
-    DiabetesDataPuller *myDdp;
-    NSArray *myGlucoseData;
 }
 
 @property (nonatomic, strong) CPTGraphHostingView *hostView;

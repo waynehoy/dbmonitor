@@ -14,10 +14,4 @@
 @property double deviation;
 @property double timeToGo;
 
-+ (GlucosePrediction *) lastPrediction;
-
-+ (void) setMaxPredictions: (int) max;
-+ (NSArray *) refreshPredictionsArray;
-+ (NSArray *) predictionsArray;
-
 @end

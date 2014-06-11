@@ -7,8 +7,9 @@
 //
 
 #import "HistoryViewController.h"
-#import "DiabetesDataPuller.h"
+#import "GlucoseLevelList.h"
 #import "GlucoseLevel.h"
+#import "GlucosePredictionList.h"
 #import "GlucosePrediction.h"
 
 #import "CorePlot-CocoaTouch.h"
@@ -20,12 +21,17 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 @interface HistoryViewController ()
 
-- (void) _updatePredictionHelper;
+- (void) _refreshPredictionHelper;
+- (void) _refreshGlucoseDataHelper;
 @end
 
 
 
 @implementation HistoryViewController
+{
+    NSArray *myGlucoseLevels;
+    NSArray *myGlucoseExtremes;
+}
 
 @synthesize hostView = _hostView;
 @synthesize selectedTheme = _selectedTheme;
@@ -42,36 +48,16 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 @synthesize lastDataPt;
 
 
-- (void) _refreshGlucoseDataHelper
-{
-    // TODO
-    myDdp = [[DiabetesDataPuller alloc] init];
-    myGlucoseData = [myDdp getGlucose:0];
-    NSLog(@"data = %@", myGlucoseData);
-
-}
-
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        myGlucoseLevels = nil;
+        myGlucoseExtremes = nil;
+
     }
     return self;
-}
-
--(NSArray*)data
-{
-    return myGlucoseData;
-    
-//    return (NSArray*)[((id)[[UIApplication sharedApplication] delegate]) data];
-}
-
--(DiabetesDataPuller*)ddp
-{
-    return myDdp;
-//    return [((id)[[UIApplication sharedApplication] delegate]) ddp];
 }
 
 
@@ -79,11 +65,20 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 {
     [super viewDidLoad];
     
+
     // Do any additional setup after loading the view.
-    myDdp = nil;
-    myGlucoseData = nil;
+    myGlucoseLevels = nil;
+    myGlucoseExtremes = nil;
     [self _refreshGlucoseDataHelper];
+    [self _refreshPredictionHelper];
     
+    [self refreshLastUpdatedLabel];
+    
+#if 0
+    // ****************************************************************************
+    // I think this entire section is superceded by _updatePredictionHelper????
+    //
+    // ****************************************************************************
     
     NSArray* dateLabels = [NSArray arrayWithObjects:
                            date3,
@@ -92,7 +87,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
                            nil];
     
     NSUInteger i = 2;
-    NSAssert([[self data] count] > 2, @"valid"); // fixme, yes this is dumb
+//    NSAssert([[self data] count] > 2, @"valid"); // TODO fixme, yes this is dumb
     for(UILabel* l in dateLabels)
     {
         // l.text = @"June 2 @ 9:00am";
@@ -119,17 +114,12 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     }
 
     lastDataPt.text = [NSString stringWithFormat:@"%.1f" , level];
-    
-    [self refreshLastUpdatedLabel];
-    
-    // Setup the alerts and prediction
-    [self _updateAlertsHelper];
-    [self _updatePredictionHelper];
+#endif
 }
 
 -(void)refreshLastUpdatedLabel
 {
-    GlucoseLevel *lastLevel = [[self data] lastObject];
+    GlucoseLevel *lastLevel = [[[GlucoseLevelList sharedInstance] sortedGlucose] lastObject];
     self.outLastUpdateLabel.text = [NSString stringWithFormat:@"Last Updated:\n%@",
                                     [NSDateFormatter localizedStringFromDate:lastLevel.time
                                                                    dateStyle:NSDateFormatterShortStyle
@@ -166,30 +156,29 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 //  Core Plot Data Source methods
 //
 // *********************************************************************
-#define MAXCOUNT ((60 /*min/h*/ / 5 /*min/datapt*/) * 24 /*hours*/) /* data pts per 3 hour interval */
 
-// This always returns the number of records in the entire dataset
-// Irrespective of the data series being plotted
-// It is based on the selected segment control item
+// Returns the NSTimeInterval object representing the currently
+// selected time period from the segemented control
+// NSTimeInterval is in SECONDS
 //
-- (NSUInteger)numberOfRecordsHelper
+- (NSTimeInterval) _selectedDateOffset
 {
+    NSTimeInterval offset = 0.0;
+    
     // Get the selected segment
-    NSUInteger numPoints = MAXCOUNT;
-    switch (self.outSelectedTimePeriod.selectedSegmentIndex) {
-        case 0: numPoints = (60/5) * 3;
+    switch (self.outSelectedTimePeriod.selectedSegmentIndex)
+    {
+        case 0: offset = -3 * 60 * 60;
             break;
-        case 1: numPoints = (60/5) * 6;
+        case 1: offset = -6 * 60 * 60;
             break;
-        case 2: numPoints = (60/5) * 12;
+        case 2: offset = -12 * 60 * 60;
             break;
-        case 3: numPoints = (60/5) * 24;
+        case 3: offset = -24 * 60 * 60;
             break;
     }
-    if (numPoints > MAXCOUNT) {
-        return MAXCOUNT;
-    }
-    return numPoints;
+
+    return offset;
 }
 
 -(CPTLayer*)dataLabelForPlot:(CPTPlot*)plot
@@ -197,15 +186,8 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 {
     if(plot.identifier == GRAPH_HIGHLIGHT_ID)
     {
-        NSUInteger requiredCount = [self numberOfRecordsHelper];
-        NSArray* dataPts = [self data];
-    
-        // dataPts is a sorted array (in time) of GlucoseLevel objects
-        // The DiabetesDataPuller is pulling in a set the most recent N data points, in forward time order
-        // We simply need to compute the segment that we want, based on the selected time period
-        NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
-        GlucoseLevel *currLevel = currLevel = [[[self ddp] getGlucoseExtremesWithinRange:range] objectAtIndex:index];
-    
+        GlucoseLevel *currLevel = [myGlucoseExtremes objectAtIndex:index];
+        
         CPTMutableTextStyle *hitAnnotationTextStyle = [CPTMutableTextStyle textStyle];
         hitAnnotationTextStyle.color = [CPTColor whiteColor];
         hitAnnotationTextStyle.fontSize = 9.0f;
@@ -224,7 +206,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     if(plot.identifier == GRAPH_HIGHLIGHT_ID)
         return 2;
     
-    return [self numberOfRecordsHelper];
+    return [myGlucoseLevels count];
 
 //    NSLog(@"Number of data points is %d", numPoints);
 
@@ -240,23 +222,17 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
                recordIndex:(NSUInteger)index
 {
     NSUInteger count = [self numberOfRecordsForPlot:plot];
-    NSUInteger requiredCount = [self numberOfRecordsHelper];
-    NSArray* dataPts = [self data];
-    
-    // dataPts is a sorted array (in time) of GlucoseLevel objects
-    // The DiabetesDataPuller is pulling in a set the most recent N data points, in forward time order
-    // We simply need to compute the segment that we want, based on the selected time period
-    NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
-    NSArray *subset = [dataPts subarrayWithRange:range];
-    NSLog(@"subset has %d items", (int)[subset count]);
     
     GlucoseLevel *currLevel = nil;
+    NSArray *dataList = nil;
     if(plot.identifier == GRAPH_HIGHLIGHT_ID) {
-        currLevel = [[[self ddp] getGlucoseExtremesWithinRange:range] objectAtIndex:index];
+        dataList = myGlucoseExtremes;
+        currLevel = [dataList objectAtIndex:index];
         NSLog(@"CurrLevel Extreme is %@", [currLevel description]);
     }
     else {
-        currLevel = [subset objectAtIndex:index];
+        dataList = myGlucoseLevels;
+        currLevel = [myGlucoseLevels objectAtIndex:index];
     }
 
     switch (fieldEnum) {
@@ -265,8 +241,8 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
             if (index < count) {
                 // Assume the numerical range of the X axis is 0.0 to 1.0
                 // And the minTime is at 0.0 and the maxTime is at 1.0
-                GlucoseLevel *firstObj = [subset firstObject];
-                GlucoseLevel *lastObj = [subset lastObject];
+                GlucoseLevel *firstObj = [myGlucoseLevels firstObject];
+                GlucoseLevel *lastObj = [myGlucoseLevels lastObject];
                 double minTime = (double)[firstObj.time timeIntervalSince1970];
                 double maxTime = (double)[lastObj.time timeIntervalSince1970];
                 
@@ -286,7 +262,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
         case CPTScatterPlotFieldY:
             if (index < count)
                 {
-                NSLog(@"y value is %f", [[subset objectAtIndex:index] glucose]);
+                NSLog(@"y value is %f", [[dataList objectAtIndex:index] glucose]);
                     
                 return [NSNumber numberWithFloat:[currLevel glucose]];
                 }
@@ -325,17 +301,18 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 - (IBAction)actRefresh:(id)sender
 {
     [self _refreshGlucoseDataHelper];
-    [self _updatePredictionHelper];
+    [self _refreshPredictionHelper];
+
     [self initPlot];
-    
     [self refreshLastUpdatedLabel];
-    
-    [self performSelector:@selector(displayAlert:) withObject:nil afterDelay:4];
+
+    // TODO replace with a real popup message based on the last prediction, if it's relevant
+    //[self performSelector:@selector(displayAlert:) withObject:nil afterDelay:4];
 }
 
 -(void)displayAlert:(id)arg
 {
-    GlucosePrediction* prediction = [GlucosePrediction lastPrediction];
+    GlucosePrediction* prediction = [[[GlucosePredictionList sharedInstance] sortedPredictions] lastObject];
     
     NSString* custom = nil;
     if(prediction.deviation > 0){
@@ -360,6 +337,21 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 -(void)initPlot
 {
+    // Set the instance variable array of datapoints to the appropriate subset of glucose data points
+    //
+    // TODO setting the "current time" as the known last observation from the Hackathon
+    // - We haven't been gathering data since, so last X hours would be empty!
+    NSDate *nowDate = [NSDate dateWithTimeIntervalSince1970: (1401821877818.0/1000.0)];
+    
+    NSTimeInterval offset = [self _selectedDateOffset];
+    NSDate *startDate = [nowDate dateByAddingTimeInterval:offset];
+    
+    myGlucoseLevels = [[GlucoseLevelList sharedInstance] glucoseLevelsSince:startDate];
+    
+    // Same thing, get the extremes
+    myGlucoseExtremes = [[GlucoseLevelList sharedInstance] glucoseExtremesSince:startDate];
+    
+    // Update the chart!
     [self configureHost];
     [self configureGraph];
     [self configureChart];
@@ -428,7 +420,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     // 2 - Create the three plots
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
-    aaplPlot.identifier = GRAPH_ALL_ID;    // WKH TODO Enum for the plot ID (series)
+    aaplPlot.identifier = GRAPH_ALL_ID;
     
     
     CPTColor *aaplColor = [CPTColor colorWithComponentRed:0.168f green:0.547f blue:0.54f alpha:0.5f];
@@ -473,15 +465,8 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     NSMutableSet *xLocations = [NSMutableSet setWithCapacity:dateCount];
     NSInteger i = 0;
     
-    NSUInteger requiredCount = [self numberOfRecordsHelper];
-    NSArray* dataPts = [self data];
-    
-    // dataPts is a sorted array (in time) of GlucoseLevel objects
-    // The DiabetesDataPuller is pulling in a set the most recent N data points, in forward time order
-    // We simply need to compute the segment that we want, based on the selected time period
-    NSRange range = NSMakeRange([dataPts count]-requiredCount, requiredCount);
-    NSArray *subset = [dataPts subarrayWithRange:range];
-    NSArray* dates = [NSArray arrayWithObjects:[[subset firstObject] time], [[subset lastObject] time], nil];
+    // Get the first and last times in the segmented dataset, should be in myGlucoseLevels instance variable already
+    NSArray* dates = [NSArray arrayWithObjects:[[myGlucoseLevels firstObject] time], [[myGlucoseLevels lastObject] time], nil];
     for (NSDate* date in dates)
         {
         NSString* d = [NSDateFormatter localizedStringFromDate:date
@@ -531,7 +516,7 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     
     CPTScatterPlot *highlightlPlot = [[CPTScatterPlot alloc] init];
     highlightlPlot.dataSource = self;
-    highlightlPlot.identifier = GRAPH_HIGHLIGHT_ID;    // WKH TODO Enum for the plot ID (series)
+    highlightlPlot.identifier = GRAPH_HIGHLIGHT_ID;
     
     CPTColor *highlightColor = [CPTColor colorWithComponentRed:1.f green:1.f blue:1.f alpha:0.5f];
     [graph addPlot:highlightlPlot toPlotSpace:plotSpace];
@@ -549,52 +534,6 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     highlightSymbol.size = CGSizeMake(6.0f, 6.0f);
     highlightlPlot.plotSymbol = highlightSymbol;
     
-    
-    //
-    //    static CPTMutableTextStyle *style = nil;
-    //    if (!style) {
-    //        style = [CPTMutableTextStyle textStyle];
-    //        style.color= [CPTColor yellowColor];
-    //        style.fontSize = 16.0f;
-    //        style.fontName = @"Helvetica-Bold";
-    //    }
-    //    // 3 - Create annotation, if necessary
-    //    NSNumber *price = [self numberForPlot:plot field:CPTBarPlotFieldBarTip recordIndex:index];
-    //    if (!self.priceAnnotation) {
-    //        NSNumber *x = [NSNumber numberWithInt:0];
-    //        NSNumber *y = [NSNumber numberWithInt:0];
-    //        NSArray *anchorPoint = [NSArray arrayWithObjects:x, y, nil];
-    //        self.priceAnnotation = [[CPTPlotSpaceAnnotation alloc] initWithPlotSpace:plot.plotSpace anchorPlotPoint:anchorPoint];
-    //    }
-    //    // 4 - Create number formatter, if needed
-    //    static NSNumberFormatter *formatter = nil;
-    //    if (!formatter) {
-    //        formatter = [[NSNumberFormatter alloc] init];
-    //        [formatter setMaximumFractionDigits:2];
-    //    }
-    //    // 5 - Create text layer for annotation
-    //    NSString *priceValue = [formatter stringFromNumber:price];
-    //    CPTTextLayer *textLayer = [[CPTTextLayer alloc] initWithText:priceValue style:style];
-    //    self.priceAnnotation.contentLayer = textLayer;
-    //    // 6 - Get plot index based on identifier
-    //    NSInteger plotIndex = 0;
-    //    if ([plot.identifier isEqual:CPDTickerSymbolAAPL] == YES) {
-    //        plotIndex = 0;
-    //    } else if ([plot.identifier isEqual:CPDTickerSymbolGOOG] == YES) {
-    //        plotIndex = 1;
-    //    } else if ([plot.identifier isEqual:CPDTickerSymbolMSFT] == YES) {
-    //        plotIndex = 2;
-    //    }
-    //    // 7 - Get the anchor point for annotation
-    //    CGFloat x = index + CPDBarInitialX + (plotIndex * CPDBarWidth);
-    //    NSNumber *anchorX = [NSNumber numberWithFloat:x];
-    //    CGFloat y = [price floatValue] + 40.0f;
-    //    NSNumber *anchorY = [NSNumber numberWithFloat:y];
-    //    self.priceAnnotation.anchorPlotPoint = [NSArray arrayWithObjects:anchorX, anchorY, nil];
-    //    // 8 - Add the annotation 
-    //    [plot.graph.plotAreaFrame.plotArea addAnnotation:self.priceAnnotation];
-    //    
-    
     return;
 }
 
@@ -605,31 +544,23 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
 
 // *********************************************************************************
 //
-//  Alerts Section
+//  Refresh Data Section
 //
 // *********************************************************************************
 
-
-- (void) _updateAlertsHelper
+- (void) _refreshGlucoseDataHelper
 {
-    return;
-
+    [[GlucoseLevelList sharedInstance] refresh];
+    myGlucoseLevels = nil;
 }
 
 
-// *********************************************************************************
-//
-//  Prediction Section
-//
-// *********************************************************************************
-
-
-- (void) _updatePredictionHelper
+- (void) _refreshPredictionHelper
 {
-    [GlucosePrediction refreshPredictionsArray];
+    NSArray *predictions = [[GlucosePredictionList sharedInstance] refresh];
     
     // 1- Update the most recent prediction
-    GlucosePrediction *predict = [GlucosePrediction lastPrediction];
+    GlucosePrediction *predict = [predictions lastObject];
     if (predict == nil)
     {
         // Hide the picture and the label
@@ -664,7 +595,6 @@ static const NSString* GRAPH_ALL_ID = @"GRAPH_ALL_ID";
     
     // 2- Update the last 3 preductions
     // Get the alerts, it's sorted in reverse order
-    NSArray *predictions = [GlucosePrediction predictionsArray];
 
     // Update the first label
     

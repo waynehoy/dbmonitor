@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4E1963BB193D238600E3F9F3 /* DiabetesDataPuller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */; };
 		4E1963BC193D238600E3F9F3 /* GlucoseLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */; };
 		A3B01586193D15E800F2A1AB /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B01585193D15E800F2A1AB /* HistoryViewController.m */; };
 		B0623E47193BDE9E00E69D92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0623E46193BDE9E00E69D92 /* QuartzCore.framework */; };
 		B0781273193CDE800096D448 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */; };
+		B07EF71E1945289300280DC8 /* GlucoseLevelList.m in Sources */ = {isa = PBXBuildFile; fileRef = B07EF71D1945289300280DC8 /* GlucoseLevelList.m */; };
+		B0C4084D1947F8DF006D083B /* GlucosePredictionList.m in Sources */ = {isa = PBXBuildFile; fileRef = B0C4084C1947F8DF006D083B /* GlucosePredictionList.m */; };
 		B0CF15B7193E1C6F0089F9B9 /* Lowerlimit.png in Resources */ = {isa = PBXBuildFile; fileRef = B0CF15B5193E1C6F0089F9B9 /* Lowerlimit.png */; };
 		B0CF15B8193E1C6F0089F9B9 /* Upperlimit.png in Resources */ = {isa = PBXBuildFile; fileRef = B0CF15B6193E1C6F0089F9B9 /* Upperlimit.png */; };
 		B0CF15BB193E1F860089F9B9 /* GlucosePrediction.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CF15BA193E1F860089F9B9 /* GlucosePrediction.m */; };
@@ -42,9 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4E1963AF193D238600E3F9F3 /* DiabetesDataPuller-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiabetesDataPuller-Prefix.pch"; sourceTree = "<group>"; };
-		4E1963B0193D238600E3F9F3 /* DiabetesDataPuller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiabetesDataPuller.h; sourceTree = "<group>"; };
-		4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiabetesDataPuller.m; sourceTree = "<group>"; };
 		4E1963B2193D238600E3F9F3 /* GlucoseLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucoseLevel.h; sourceTree = "<group>"; };
 		4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlucoseLevel.m; sourceTree = "<group>"; };
 		A3B01584193D15E800F2A1AB /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
@@ -129,6 +127,12 @@
 		B07812C0193CDEDA0096D448 /* NSCoderExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCoderExtensions.h; sourceTree = "<group>"; };
 		B07812C1193CDEDA0096D448 /* NSDecimalNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDecimalNumberExtensions.h; sourceTree = "<group>"; };
 		B07812C2193CDEDA0096D448 /* NSNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSNumberExtensions.h; sourceTree = "<group>"; };
+		B07EF7181945287300280DC8 /* libCorePlot-CocoaTouch-DEBUG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch-DEBUG.a"; sourceTree = "<group>"; };
+		B07EF7191945287300280DC8 /* libCorePlot-CocoaTouch-RELEASE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch-RELEASE.a"; sourceTree = "<group>"; };
+		B07EF71C1945289300280DC8 /* GlucoseLevelList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucoseLevelList.h; sourceTree = "<group>"; };
+		B07EF71D1945289300280DC8 /* GlucoseLevelList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlucoseLevelList.m; sourceTree = "<group>"; };
+		B0C4084B1947F8DF006D083B /* GlucosePredictionList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucosePredictionList.h; sourceTree = "<group>"; };
+		B0C4084C1947F8DF006D083B /* GlucosePredictionList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlucosePredictionList.m; sourceTree = "<group>"; };
 		B0CF15B5193E1C6F0089F9B9 /* Lowerlimit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lowerlimit.png; sourceTree = "<group>"; };
 		B0CF15B6193E1C6F0089F9B9 /* Upperlimit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Upperlimit.png; sourceTree = "<group>"; };
 		B0CF15B9193E1F860089F9B9 /* GlucosePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlucosePrediction.h; sourceTree = "<group>"; };
@@ -183,13 +187,14 @@
 		4E1963AC193D238600E3F9F3 /* DiabetesDataPuller */ = {
 			isa = PBXGroup;
 			children = (
-				4E1963AF193D238600E3F9F3 /* DiabetesDataPuller-Prefix.pch */,
-				4E1963B0193D238600E3F9F3 /* DiabetesDataPuller.h */,
-				4E1963B1193D238600E3F9F3 /* DiabetesDataPuller.m */,
 				4E1963B2193D238600E3F9F3 /* GlucoseLevel.h */,
 				4E1963B3193D238600E3F9F3 /* GlucoseLevel.m */,
 				B0CF15B9193E1F860089F9B9 /* GlucosePrediction.h */,
 				B0CF15BA193E1F860089F9B9 /* GlucosePrediction.m */,
+				B07EF71C1945289300280DC8 /* GlucoseLevelList.h */,
+				B07EF71D1945289300280DC8 /* GlucoseLevelList.m */,
+				B0C4084B1947F8DF006D083B /* GlucosePredictionList.h */,
+				B0C4084C1947F8DF006D083B /* GlucosePredictionList.m */,
 			);
 			name = DiabetesDataPuller;
 			path = DBMonitor/DiabetesDataPuller;
@@ -332,6 +337,8 @@
 		B0F8CA10193BCCAE003B6189 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B07EF7181945287300280DC8 /* libCorePlot-CocoaTouch-DEBUG.a */,
+				B07EF7191945287300280DC8 /* libCorePlot-CocoaTouch-RELEASE.a */,
 				B0CF15B5193E1C6F0089F9B9 /* Lowerlimit.png */,
 				B0CF15B6193E1C6F0089F9B9 /* Upperlimit.png */,
 				B0781272193CDE800096D448 /* libCorePlot-CocoaTouch.a */,
@@ -464,9 +471,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E1963BB193D238600E3F9F3 /* DiabetesDataPuller.m in Sources */,
 				B0CF15BB193E1F860089F9B9 /* GlucosePrediction.m in Sources */,
+				B0C4084D1947F8DF006D083B /* GlucosePredictionList.m in Sources */,
 				4E1963BC193D238600E3F9F3 /* GlucoseLevel.m in Sources */,
+				B07EF71E1945289300280DC8 /* GlucoseLevelList.m in Sources */,
 				B0F8CA1A193BCCAE003B6189 /* DBMAppDelegate.m in Sources */,
 				B0F8CA16193BCCAE003B6189 /* main.m in Sources */,
 				B0F8CA20193BCCAF003B6189 /* DBMGraphViewController.m in Sources */,
